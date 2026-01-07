@@ -15,12 +15,14 @@
 
 # define WIDTH 1280
 # define HEIGHT 720
+# define BLOCK 64
 
 # define W 119
 # define A 97
 # define S 115
 # define D 100
-
+# define LEFT 65361
+# define RIGHT 65363
 # define PI 3.14159265359
 
 # include "../libft/libft.h"
@@ -37,10 +39,14 @@ typedef struct s_player
 {
 	float	x;
 	float	y;
+	float	angle;
+
 	bool	key_up;
 	bool	key_down;
 	bool	key_left;
 	bool	key_right;
+	bool	left_rotate;
+	bool	right_rotate;
 }	t_player;
 
 typedef struct s_cub3d
@@ -57,10 +63,12 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 void	init_player(t_player *player);
+void	draw_square(int x, int y, int size, int color, t_cub3d *game);
 int		key_press(int keycode, t_player *player);
 int		key_release(int keycode, t_player *player);
 void	move_player(t_player *player);
 int		draw_loop(t_cub3d *game);
 char    **get_map(void);
+void    draw_map(t_cub3d *game);
 
 #endif

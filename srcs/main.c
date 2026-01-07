@@ -71,6 +71,44 @@ void	init_cub3d(t_cub3d *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0,0);
 }
 
+bool	touch(float px, float py, t_cub3d *game)
+{
+	int x = px / BLOCK;
+	int y = py / BLOCK;
+	if (game->map[y][x] == '1')
+		return (true);
+	return (false);
+}
+
+float	distance(float x, float y)
+{
+	return sqrt(x * x + y * y);
+}
+
+void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
+{
+	float cos_angle = cos(start_x);
+	float sin_angle = sin(start_x);
+	float ray_x = player->x;
+	float ray_y = player->y;
+
+	while (!touch(ray_x, ray_y, game))
+	{
+		put_pixel(ray_x, ray_y, 0xFF0000,game);
+		ray_x += cos_angle;
+		ray_y += sin_angle;
+	}
+	float dist = distance(ray_x - player->x, ray_y - player->y);
+	float height = (BLOCK / dist) * (WIDTH / 2);
+	int start_y = (HEIGHT - height) / 2;
+	int end = start_y + height;
+	while (start_y < end)
+	{
+		put_pixel(i, start_y, 255, game);
+		start_y++;
+	}
+}
+
 int	draw_loop(t_cub3d *game)
 {
 	t_player	*player = &game->player;
@@ -78,6 +116,29 @@ int	draw_loop(t_cub3d *game)
 	clear_image(game);
 	draw_square(player->x, player->y, 15, 0x00FF00, game);
 	draw_map(game);
+
+	float fraction = PI / 3 / WIDTH;
+	float start_x = player->angle - PI / 6;
+	int i = 0;
+
+	// float ray_x = player->x;
+	// float ray_y = player->y;
+	// float cos_angle = cos(player->angle);
+	// float sin_angle = sin(player->angle);
+
+	// while (!touch(ray_x, ray_y, game))
+	// {
+	// 	put_pixel(ray_x, ray_y, 0xFF0000,game);
+	// 	ray_x += cos_angle;
+	// 	ray_y += sin_angle;
+	// }
+	while (i < WIDTH)
+	{
+		draw_line(player, game, start_x, i);
+		start_x += fraction;
+		i++;
+	}
+
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 }
 
