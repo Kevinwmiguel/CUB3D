@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/06 18:07:42 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/07 03:30:13 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define WIDTH 1280
 # define HEIGHT 720
 # define BLOCK 64
-
+# define DEBUG 1
 # define W 119
 # define A 97
 # define S 115

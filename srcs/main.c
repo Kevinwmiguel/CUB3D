@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/06 18:08:52 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/07 03:29:37 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,15 @@ float	distance(float x, float y)
 	return sqrt(x * x + y * y);
 }
 
+float fixed_dist(float x1, float y1,float x2, float y2, t_cub3d *game)
+{
+	float delta_x = x2 - x1;
+	float delta_y = y2 - y1;
+	float angle = atan2(delta_y, delta_x) - game->player.angle;
+	float fix_dist = distance(delta_x, delta_y) * cos(angle);
+	return (fix_dist);
+}
+
 void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
 {
 	float cos_angle = cos(start_x);
@@ -94,19 +103,24 @@ void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
 
 	while (!touch(ray_x, ray_y, game))
 	{
-		put_pixel(ray_x, ray_y, 0xFF0000,game);
+		if (DEBUG)
+			put_pixel(ray_x, ray_y, 0xFF0000,game);
 		ray_x += cos_angle;
 		ray_y += sin_angle;
 	}
-	float dist = distance(ray_x - player->x, ray_y - player->y);
-	float height = (BLOCK / dist) * (WIDTH / 2);
-	int start_y = (HEIGHT - height) / 2;
-	int end = start_y + height;
-	while (start_y < end)
+	if (!DEBUG)
 	{
-		put_pixel(i, start_y, 255, game);
-		start_y++;
+		float dist = fixed_dist(player->x, player->y, ray_x, ray_y, game);
+		float height = (BLOCK / dist) * (WIDTH / 2);
+		int start_y = (HEIGHT - height) / 2;
+		int end = start_y + height;
+		while (start_y < end)
+		{
+			put_pixel(i, start_y, 255, game);
+			start_y++;
+		}
 	}
+	//float dist = distance(ray_x - player->x, ray_y - player->y);
 }
 
 int	draw_loop(t_cub3d *game)
@@ -114,9 +128,11 @@ int	draw_loop(t_cub3d *game)
 	t_player	*player = &game->player;
 	move_player(player);
 	clear_image(game);
-	draw_square(player->x, player->y, 15, 0x00FF00, game);
-	draw_map(game);
-
+	if (DEBUG)
+	{
+		draw_square(player->x, player->y, 15, 0x00FF00, game);
+		draw_map(game);
+	}
 	float fraction = PI / 3 / WIDTH;
 	float start_x = player->angle - PI / 6;
 	int i = 0;
