@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/08 18:58:41 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/08 20:57:10 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_cub3d
 {
 	void			*mlx;
 	void			*win;
-	char			*celing;
+	char			*ceiling;
 	char			*floor;
 	void			*img;
 	char			*data;
@@ -77,6 +77,9 @@ typedef struct s_cub3d
 	char			**map;
 }	t_cub3d;
 
+
+void ft_free_split(char **s);
+void parse_colors(t_cub3d *game, char *path);
 void	put_pixel(int x, int y, int color, t_cub3d *game);
 void paint_floor_and_ceiling(t_cub3d *game);
 int hex_to_int(const char *hex);
