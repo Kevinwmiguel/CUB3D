@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thiago-campus42 <thiago-campus42@studen    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 12:04:58 by thguimar          #+#    #+#             */
-/*   Updated: 2024/07/12 15:46:54 by thiago-camp      ###   ########.fr       */
+/*   Updated: 2026/01/08 17:22:30 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ typedef struct s_list
 }			t_list;
 //void
 
-char	*ft_strtrim(const char *s1, const char *set);
+char		*ft_int_to_hex(int n);
+char		*ft_strtrim(const char *s1, const char *set);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memcpy(void *dest, const void *src, size_t n);

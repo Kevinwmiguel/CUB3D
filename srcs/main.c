@@ -6,11 +6,58 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/08 01:31:24 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/08 19:00:15 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+void paint_floor_and_ceiling(t_cub3d *game)
+{
+    int x, y;
+    int color_floor = hex_to_int(game->floor);
+    int color_ceiling = hex_to_int(game->celing);
+
+    int *pixels = (int *)game->data;
+
+    for (y = 0; y < HEIGHT; y++)
+    {
+        for (x = 0; x < WIDTH; x++)
+        {
+            if (y < HEIGHT / 2)
+                pixels[y * (game->size_line / 4) + x] = color_ceiling;
+            else
+                pixels[y * (game->size_line / 4) + x] = color_floor;
+        }
+    }
+}
+
+
+int hex_to_int(const char *hex)
+{
+    int r, g, b;
+
+    if (ft_strlen(hex) != 6)
+        return (0x000000); // preto se inválido
+
+    char tmp[3];
+    tmp[2] = '\0';
+
+    tmp[0] = hex[0];
+    tmp[1] = hex[1];
+    r = (int)strtol(tmp, NULL, 16);
+
+    tmp[0] = hex[2];
+    tmp[1] = hex[3];
+    g = (int)strtol(tmp, NULL, 16);
+
+    tmp[0] = hex[4];
+    tmp[1] = hex[5];
+    b = (int)strtol(tmp, NULL, 16);
+
+    return (r << 16 | g << 8 | b);
+}
+
 
 void	put_pixel(int x, int y, int color, t_cub3d *game)
 {
@@ -18,9 +65,10 @@ void	put_pixel(int x, int y, int color, t_cub3d *game)
 		return ;
 
 	int index = y * game->size_line + x * game->bpp / 8;
-	game->data[index] = color & 0xFF;
+	game->data[index] = color & 0xFF; // mapa todo
 	game->data[index + 1] = (color >> 8) & 0xFF;
 	game->data[index + 2] = (color >> 16) & 0xFF;
+	
 }
 
 void	draw_square(int x, int y, int size, int color, t_cub3d *game)
@@ -60,9 +108,124 @@ void	clear_image(t_cub3d *game)
 			put_pixel(x,y, 0, game);
 }
 
+
+void ft_free_split(char **s)
+{
+	int i = 0;
+	while (s[i])
+	free(s[i++]);
+	free(s);
+}
+
+char *get_floor(char *path)
+{
+	int		fd;
+	char	*line;
+	char	**temp;
+	char	**temp2;
+	int		r, g, b;
+	char	*red;
+	char	*green;
+	char	*blue;
+	char	*tmp;
+	char	*fixedcolor;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	while ((line = get_next_line(fd)))
+	{
+		if (line[0] == 'F' && line[1] == ' ')
+			break;
+		free(line);
+	}
+	close(fd);
+	if (!line)
+		return (NULL);
+	temp = ft_split(line, ' ');
+	free(line);
+	if (!temp || !temp[1])
+		return (NULL);
+	temp2 = ft_split(temp[1], ',');
+	ft_free_split(temp);
+	if (!temp2 || !temp2[0] || !temp2[1] || !temp2[2])
+		return (NULL);
+	r = ft_atoi(temp2[0]);
+	g = ft_atoi(temp2[1]);
+	b = ft_atoi(temp2[2]);
+	ft_free_split(temp2);
+	red = ft_int_to_hex(r);
+	green = ft_int_to_hex(g);
+	blue = ft_int_to_hex(b);
+	tmp = ft_strjoin(red, green);
+	fixedcolor = ft_strjoin(tmp, blue);
+
+	free(red);
+	free(green);
+	free(blue);
+	free(tmp);
+	return (fixedcolor);	
+}
+
+char *get_ceiling(char *path)
+{
+	int		fd;
+	char	*line;
+	char	**temp;
+	char	**temp2;
+	int		r, g, b;
+	char	*red;
+	char	*green;
+	char	*blue;
+	char	*tmp;
+	char	*fixedcolor;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	while ((line = get_next_line(fd)))
+	{
+		if (line[0] == 'C' && line[1] == ' ')
+			break;
+		free(line);
+	}
+	close(fd);
+	if (!line)
+		return (NULL);
+	temp = ft_split(line, ' ');
+	free(line);
+	if (!temp || !temp[1])
+		return (NULL);
+	temp2 = ft_split(temp[1], ',');
+	ft_free_split(temp);
+	if (!temp2 || !temp2[0] || !temp2[1] || !temp2[2])
+		return (NULL);
+	r = ft_atoi(temp2[0]);
+	g = ft_atoi(temp2[1]);
+	b = ft_atoi(temp2[2]);
+	ft_free_split(temp2);
+	red = ft_int_to_hex(r);
+	green = ft_int_to_hex(g);
+	blue = ft_int_to_hex(b);
+	tmp = ft_strjoin(red, green);
+	fixedcolor = ft_strjoin(tmp, blue);
+	free(red);
+	free(green);
+	free(blue);
+	free(tmp);
+	printf("color fixed %s\n", fixedcolor);
+	return (fixedcolor);
+}
+
 void	init_cub3d(t_cub3d *game, char *path)
 {
+	
+	printf("path %s\n", path);
 	init_player(&game->player);
+	game->floor = get_floor(path);
+	printf("floor %s\n", game->floor);
+	game->celing = get_ceiling(path);
+	printf("\nceling %s\n", game->celing);
 	game->map = get_map(path);
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "FLYING WATERS");
@@ -104,7 +267,7 @@ void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
 	while (!touch(ray_x, ray_y, game))
 	{
 		if (DEBUG)
-			put_pixel(ray_x, ray_y, 0xFF0000,game);
+			put_pixel(ray_x, ray_y, 0xE10AFF,game);
 		ray_x += cos_angle;
 		ray_y += sin_angle;
 	}
@@ -116,7 +279,7 @@ void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
 		int end = start_y + height;
 		while (start_y < end)
 		{
-			put_pixel(i, start_y, 255, game);
+			put_pixel(i, start_y, 0xE10AFF, game);
 			start_y++;
 		}
 	}
@@ -128,6 +291,7 @@ int	draw_loop(t_cub3d *game)
 	t_player	*player = &game->player;
 	move_player(player, game);
 	clear_image(game);
+	paint_floor_and_ceiling(game);
 	if (DEBUG)
 	{
 		draw_square(player->x, player->y, 15, 0x00FF00, game);

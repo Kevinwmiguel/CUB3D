@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:38:23 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/08 01:19:09 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/08 15:51:50 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char **get_map(char *path)
 void    draw_map(t_cub3d *game)
 {
     char **map = game->map;
-    int color = 0x0000FF;
+    int color = 0xFF00FF;
     for (int y = 0; map[y]; y++)
         for (int x = 0; map[y][x]; x++)
         if (map[y][x] == '1')
