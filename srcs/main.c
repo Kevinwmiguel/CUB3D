@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/07 03:29:37 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/08 01:31:24 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	clear_image(t_cub3d *game)
 			put_pixel(x,y, 0, game);
 }
 
-void	init_cub3d(t_cub3d *game)
+void	init_cub3d(t_cub3d *game, char *path)
 {
 	init_player(&game->player);
-	game->map = get_map();
+	game->map = get_map(path);
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "FLYING WATERS");
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
@@ -126,7 +126,7 @@ void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
 int	draw_loop(t_cub3d *game)
 {
 	t_player	*player = &game->player;
-	move_player(player);
+	move_player(player, game);
 	clear_image(game);
 	if (DEBUG)
 	{
@@ -136,37 +136,26 @@ int	draw_loop(t_cub3d *game)
 	float fraction = PI / 3 / WIDTH;
 	float start_x = player->angle - PI / 6;
 	int i = 0;
-
-	// float ray_x = player->x;
-	// float ray_y = player->y;
-	// float cos_angle = cos(player->angle);
-	// float sin_angle = sin(player->angle);
-
-	// while (!touch(ray_x, ray_y, game))
-	// {
-	// 	put_pixel(ray_x, ray_y, 0xFF0000,game);
-	// 	ray_x += cos_angle;
-	// 	ray_y += sin_angle;
-	// }
 	while (i < WIDTH)
 	{
 		draw_line(player, game, start_x, i);
 		start_x += fraction;
 		i++;
 	}
-
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+	return (0);
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
 	t_cub3d	game;
-
-	init_cub3d(&game);
-	mlx_hook(game.win, 2, 1L<<0, key_press, &game.player);
-	mlx_hook(game.win, 3, 1L<<1, key_release, &game.player);
-	mlx_loop_hook(game.mlx, draw_loop, &game);
-	//draw_square(WIDTH / 2, HEIGHT / 2, 10, 0x00FF00, &game);
-	mlx_loop(game.mlx);
+	if (argc == 2)
+	{
+		init_cub3d(&game, argv[1]);	
+		mlx_hook(game.win, 2, 1L<<0, key_press, &game.player);
+		mlx_hook(game.win, 3, 1L<<1, key_release, &game.player);
+		mlx_loop_hook(game.mlx, draw_loop, &game);
+		mlx_loop(game.mlx);
+	}
 	return (0);
 }

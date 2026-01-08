@@ -26,6 +26,8 @@ typedef struct s_list
 	struct s_list	*next;
 }			t_list;
 //void
+
+char	*ft_strtrim(const char *s1, const char *set);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memcpy(void *dest, const void *src, size_t n);
