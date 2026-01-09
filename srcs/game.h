@@ -6,9 +6,13 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/09 02:48:41 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/09 18:22:23 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//DOIS PROBLEMAS
+//RAYCASTING N ESTA ALINHADO
+//2D E 3D APARECEM EM SIMULTANEO
 
 #ifndef GAME_H
 # define GAME_H
@@ -16,7 +20,12 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define BLOCK 64
-# define DEBUG 1
+#define MINIMAP_PADDING 20
+#define MINIMAP_SIZE 180
+#define MINIMAP_SCALE 0.2
+#define MINIMAP_MARGIN 20
+# define DEBUG 0
+#define FOV (PI / 3)
 # define W 119
 # define A 97
 # define S 115
@@ -83,6 +92,16 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 
+void	cast_rays_2d(t_cub3d *game);
+void	cast_rays_3d(t_cub3d *game);
+void	cast_rays_minimap(t_cub3d *game);
+void	draw_player_minimap(t_cub3d *game);
+int     get_map_height(char **map);
+void	draw_minimap(t_cub3d *game);
+void	cast_rays(t_cub3d *game);
+void	set_player_from_map(t_cub3d *game);
+void	draw_line(t_player *player, t_cub3d *game, float start_x, int i);
+bool	touch_wall(float px, float py, t_cub3d *game);
 void ft_free_split(char **s);
 void parse_colors(t_cub3d *game, char *path);
 void	put_pixel(int x, int y, int color, t_cub3d *game);
@@ -97,5 +116,6 @@ int		draw_loop(t_cub3d *game);
 char    **get_map(char *path);
 void    draw_map(t_cub3d *game);
 void    get_textures(t_cub3d *game, char *path);
+void	draw_minimap_border(t_cub3d *game);
 
 #endif

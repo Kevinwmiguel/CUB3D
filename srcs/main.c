@@ -6,11 +6,33 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/09 02:52:21 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/09 18:18:26 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+void	render_rays(t_cub3d *game)
+{
+	int		i;
+	float	ray_angle;
+	float	fov;
+	float	step;
+
+	fov = PI / 3; // 60 graus
+	step = fov / WIDTH;
+
+	ray_angle = game->player.angle - (fov / 2);
+	i = 0;
+
+	while (i < WIDTH)
+	{
+		draw_line(&game->player, game, ray_angle, i);
+		ray_angle += step;
+		i++;
+	}
+}
+
 
 int hex_to_int(const char *hex)
 {
@@ -283,22 +305,23 @@ void	init_cub3d(t_cub3d *game, char *path)
 	
 	printf("path %s\n", path);
 	init_player(&game->player);
-	get_textures(game, path);
-	printf("north %s\n", game->tex[0].img_path);
-	printf("South %s\n", game->tex[1].img_path);
-	printf("Weast %s\n", game->tex[2].img_path);
-	printf("East %s\n", game->tex[3].img_path);
-	exit(1);
-	// game->floor = get_floor(path);
-	// printf("floor %s\n", game->floor);
-	// game->ceiling = get_ceiling(path);
-	// printf("\nceiling %s\n", game->ceiling);
+	// get_textures(game, path);
+	// printf("north %s\n", game->tex[0].img_path);
+	// printf("South %s\n", game->tex[1].img_path);
+	// printf("Weast %s\n", game->tex[2].img_path);
+	// printf("East %s\n", game->tex[3].img_path);
+	// exit(1);
+	game->floor = get_floor(path);
+	printf("floor %s\n", game->floor);
+	game->ceiling = get_ceiling(path);
+	printf("\nceiling %s\n", game->ceiling);
 	parse_colors(game, path);
     if (!game->floor || !game->ceiling)
 	{
         printf("Erro: Cores não encontradas ou mal formatadas!\n");
 	}
 	game->map = get_map(path);
+	set_player_from_map(game);
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, WIDTH, HEIGHT, "FLYING WATERS");
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
@@ -329,57 +352,153 @@ float fixed_dist(float x1, float y1,float x2, float y2, t_cub3d *game)
 	return (fix_dist);
 }
 
-void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
+void	draw_line(t_player *player, t_cub3d *game, float ray_angle, int column)
 {
-	float cos_angle = cos(start_x);
-	float sin_angle = sin(start_x);
-	float ray_x = player->x;
-	float ray_y = player->y;
+	float	ray_x;
+	float	ray_y;
+	float	step_x;
+	float	step_y;
 
-	while (!touch(ray_x, ray_y, game))
+	ray_x = player->x;
+	ray_y = player->y;
+
+	step_x = cos(ray_angle);
+	step_y = sin(ray_angle);
+
+	while (!touch_wall(ray_x, ray_y, game))
 	{
 		if (DEBUG)
-			put_pixel(ray_x, ray_y, 0xE10AFF,game);
-		ray_x += cos_angle;
-		ray_y += sin_angle;
+		{
+			int screen_x = ray_x - player->x + WIDTH / 2;
+			int screen_y = ray_y - player->y + HEIGHT / 2;
+
+			put_pixel(screen_x, screen_y, 0xFFFF00, game);
+		}
+		ray_x += step_x;
+		ray_y += step_y;
 	}
+
+	/* ---------- 3D ---------- */
 	if (!DEBUG)
 	{
 		float dist = fixed_dist(player->x, player->y, ray_x, ray_y, game);
-		float height = (BLOCK / dist) * (WIDTH / 2);
-		int start_y = (HEIGHT - height) / 2;
-		int end = start_y + height;
-		while (start_y < end)
+		float wall_height = (BLOCK / dist) * (WIDTH / 2);
+
+		int start = (HEIGHT / 2) - (wall_height / 2);
+		int end = (HEIGHT / 2) + (wall_height / 2);
+
+		if (start < 0) start = 0;
+		if (end > HEIGHT) end = HEIGHT;
+		while (start < end)
 		{
-			put_pixel(i, start_y, 0xE10AFF, game);
-			start_y++;
+			put_pixel(column, start, 0xE10AFF, game);
+			start++;
 		}
+	
 	}
+	
+	
 }
+
+void	draw_player(t_cub3d *game)
+{
+	int cx = WIDTH / 2;
+	int cy = HEIGHT / 2;
+
+	draw_square(cx - 15, cy - 15, 10, 0x00FF00, game);
+}
+
+// int	draw_loop(t_cub3d *game)
+// {
+// 	t_player	*player = &game->player;
+// 	move_player(player, game);
+// 	clear_image(game);
+// 	paint_floor_and_ceiling(game);
+// 	if (DEBUG)
+// 	{
+// 		draw_square(player->x, player->y, 15, 0x00FF00, game);
+// 		draw_map(game);
+// 	}
+// 	float fraction = PI / 3 / WIDTH;
+// 	float start_x = player->angle - PI / 6;
+// 	int i = 0;
+// 	while (i < WIDTH)
+// 	{
+// 		draw_line(player, game, start_x, i);
+// 		start_x += fraction;
+// 		i++;
+// 	}
+// 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+// 	return (0);
+// }
+
+// int	draw_loop(t_cub3d *game)
+// {
+// 	move_player(&game->player, game);
+// 	clear_image(game);
+
+// 	if (DEBUG)
+// 	{
+// 		paint_floor_and_ceiling(game);
+// 		draw_map(game);
+// 		draw_player(game);
+// 		cast_rays(game);
+// 	}
+// 	else
+// 	{
+// 		paint_floor_and_ceiling(game);
+// 		cast_rays(game);
+// 	}
+
+// 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+// 	return (0);
+// }
+
+//VERSAO FINAL QUANDO CARREGUEI
+// int	draw_loop(t_cub3d *game)
+// {
+// 	move_player(&game->player, game);
+// 	clear_image(game);
+// 	paint_floor_and_ceiling(game);
+// 	if (DEBUG)
+// 	{
+// 		draw_map(game);
+// 		draw_player(game);
+// 		cast_rays_2d(game);
+// 	}
+// 	else
+// 	{
+// 		cast_rays_3d(game);
+// 		draw_minimap(game);
+// 		draw_player_minimap(game);
+// 		cast_rays_minimap(game);
+// 	}
+// 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
+// 	return (0);
+// }
 
 int	draw_loop(t_cub3d *game)
 {
-	t_player	*player = &game->player;
-	move_player(player, game);
+	move_player(&game->player, game);
 	clear_image(game);
 	paint_floor_and_ceiling(game);
 	if (DEBUG)
 	{
-		draw_square(player->x, player->y, 15, 0x00FF00, game);
 		draw_map(game);
+		draw_player(game);
+		cast_rays_2d(game);
 	}
-	float fraction = PI / 3 / WIDTH;
-	float start_x = player->angle - PI / 6;
-	int i = 0;
-	while (i < WIDTH)
+	else
 	{
-		draw_line(player, game, start_x, i);
-		start_x += fraction;
-		i++;
+		cast_rays_3d(game);
+		draw_minimap(game);
+		draw_player_minimap(game);
+		draw_minimap_border(game);
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
+
 
 int fechar_janela(void *param)
 {

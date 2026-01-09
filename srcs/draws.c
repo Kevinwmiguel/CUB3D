@@ -6,13 +6,31 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/09 02:46:50 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/09 17:59:45 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 //mlx_put_image_to_window(game->mlx, game->win, game->assets->water->img, x1, y1);
 //Walls aqui
+
+void	cast_rays(t_cub3d *game)
+{
+	int		i;
+	float	ray_angle;
+	float	step;
+
+	step = FOV / WIDTH;
+	ray_angle = game->player.angle - (FOV / 2);
+	i = 0;
+
+	while (i < WIDTH)
+	{
+		draw_line(&game->player, game, ray_angle, i);
+		ray_angle += step;
+		i++;
+	}
+}
 
 char	*extract_path(char *line)
 {
