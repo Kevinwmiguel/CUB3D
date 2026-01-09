@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/08 20:57:10 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/09 02:48:41 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define BLOCK 64
-# define DEBUG 0
+# define DEBUG 1
 # define W 119
 # define A 97
 # define S 115
@@ -26,15 +26,6 @@
 # define PI 3.14159265359
 # define PLAYER_RADIUS 4
 # define ESC 65307
-
-# define PRT_NORTH "NO"
-# define PRT_SOUTH "SO"
-# define PRT_EAST "EA"
-# define PRT_WEST "WE"
-# define PRT_FLOOR "F"
-# define PRT_CEIL "C"
-# define PRT_DOOR "DO"
-# define PRT_SPR "SP"
 
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
@@ -47,6 +38,19 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <math.h>
+
+typedef struct s_texture
+{
+	void			*mlx;
+	void			*win;
+	void			*img;
+	char			*type;
+	char			*img_path;
+	char			*data;
+	int				bpp;
+	int				size_line;
+	int				endian;
+}	t_texture;
 
 typedef struct s_player
 {
@@ -70,6 +74,7 @@ typedef struct s_cub3d
 	char			*floor;
 	void			*img;
 	char			*data;
+	t_texture		tex[4];
 	int				bpp;
 	int				size_line;
 	int				endian;
@@ -91,5 +96,6 @@ void	move_player(t_player *player, t_cub3d *game);
 int		draw_loop(t_cub3d *game);
 char    **get_map(char *path);
 void    draw_map(t_cub3d *game);
+void    get_textures(t_cub3d *game, char *path);
 
 #endif

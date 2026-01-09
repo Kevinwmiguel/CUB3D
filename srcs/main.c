@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/08 20:54:43 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/09 02:52:21 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,12 @@ void	init_cub3d(t_cub3d *game, char *path)
 	
 	printf("path %s\n", path);
 	init_player(&game->player);
+	get_textures(game, path);
+	printf("north %s\n", game->tex[0].img_path);
+	printf("South %s\n", game->tex[1].img_path);
+	printf("Weast %s\n", game->tex[2].img_path);
+	printf("East %s\n", game->tex[3].img_path);
+	exit(1);
 	// game->floor = get_floor(path);
 	// printf("floor %s\n", game->floor);
 	// game->ceiling = get_ceiling(path);
@@ -349,7 +355,6 @@ void	draw_line(t_player *player, t_cub3d *game, float start_x, int i)
 			start_y++;
 		}
 	}
-	//float dist = distance(ray_x - player->x, ray_y - player->y);
 }
 
 int	draw_loop(t_cub3d *game)
@@ -376,6 +381,14 @@ int	draw_loop(t_cub3d *game)
 	return (0);
 }
 
+int fechar_janela(void *param)
+{
+    //Vou por um cleaner aqui
+    (void)param;
+    exit(0);
+    return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_cub3d	game;
@@ -384,6 +397,7 @@ int	main(int argc, char **argv)
 		init_cub3d(&game, argv[1]);	
 		mlx_hook(game.win, 2, 1L<<0, key_press, &game.player);
 		mlx_hook(game.win, 3, 1L<<1, key_release, &game.player);
+		mlx_hook(game.win, 17, 0, fechar_janela, NULL);
 		mlx_loop_hook(game.mlx, draw_loop, &game);
 		mlx_loop(game.mlx);
 	}

@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 20:52:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/08 20:52:21 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/09 02:13:24 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,15 @@ void parse_colors(t_cub3d *game, char *path)
 
     while ((line = get_next_line(fd)))
     {
-        // Ignora espaços vazios no início da linha se necessário
         if (line[0] == 'F' && line[1] == ' ')
             game->floor = process_rgb_line(line);
         else if (line[0] == 'C' && line[1] == ' ')
             game->ceiling = process_rgb_line(line);
         
         free(line);
-        // Se já pegou as duas, podes dar break ou continuar para ler o mapa
         if (game->floor && game->ceiling)
             break;
     }
-    
-    // IMPORTANTE: Limpar o resto do GNL para não deixar leaks ou lixo no buffer
     while ((line = get_next_line(fd)))
         free(line);
     close(fd);

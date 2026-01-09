@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:36:45 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/08 01:36:05 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/09 02:14:54 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void	move_player(t_player *player, t_cub3d *game)
 	float	next_x;
 	float	next_y;
 
-	speed = 3.0;
-	angle_speed = 0.03;
+	speed = 4.0;
+	angle_speed = 0.08;
 
 	cos_angle = cos(player->angle);
 	sin_angle = sin(player->angle);
