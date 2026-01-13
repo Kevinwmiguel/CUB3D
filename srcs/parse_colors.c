@@ -6,62 +6,56 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 20:52:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/09 02:13:24 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/13 23:00:48 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-char *process_rgb_line(char *line)
+char	*process_rgb_line(char *line, t_cub3d *game)
 {
-    char **tab;
-    char **rgb;
-    char *r_hex; char *g_hex; char *b_hex;
-    char *tmp; char *final_hex;
-
-    tab = ft_split(line, ' ');
-    if (!tab || !tab[1]) return (NULL);
-    
-    rgb = ft_split(tab[1], ',');
-    ft_free_split(tab);
-    if (!rgb || !rgb[0] || !rgb[1] || !rgb[2])
-    {
-        ft_free_split(rgb);
-        return (NULL);
-    }
-    
-    r_hex = ft_int_to_hex(ft_atoi(rgb[0]));
-    g_hex = ft_int_to_hex(ft_atoi(rgb[1]));
-    b_hex = ft_int_to_hex(ft_atoi(rgb[2]));
-    ft_free_split(rgb);
-
-    tmp = ft_strjoin(r_hex, g_hex);
-    final_hex = ft_strjoin(tmp, b_hex);
-    
-    free(r_hex); free(g_hex); free(b_hex); free(tmp);
-    return (final_hex);
+	game->tab = ft_split(line, ' ');
+	if (!game->tab || !game->tab[1])
+		return (NULL);
+	game->rgb = ft_split(game->tab[1], ',');
+	ft_free_split(game->tab);
+	if (!game->rgb || !game->rgb[0] || !game->rgb[1] || !game->rgb[2])
+	{
+		ft_free_split(game->rgb);
+		return (NULL);
+	}
+	game->r_hex = ft_int_to_hex(ft_atoi(game->rgb[0]));
+	game->g_hex = ft_int_to_hex(ft_atoi(game->rgb[1]));
+	game->b_hex = ft_int_to_hex(ft_atoi(game->rgb[2]));
+	ft_free_split(game->rgb);
+	game->tmp = ft_strjoin(game->r_hex, game->g_hex);
+	game->final_hex = ft_strjoin(game->tmp, game->b_hex);
+	free(game->r_hex);
+	free(game->g_hex);
+	free(game->b_hex);
+	free(game->tmp);
+	return (game->final_hex);
 }
 
-void parse_colors(t_cub3d *game, char *path)
+void	parse_colors(t_cub3d *game, char *path)
 {
-    int     fd;
-    char    *line;
+	int		fd;
+	char	*line;
 
-    fd = open(path, O_RDONLY);
-    if (fd < 0) return ;
-
-    while ((line = get_next_line(fd)))
-    {
-        if (line[0] == 'F' && line[1] == ' ')
-            game->floor = process_rgb_line(line);
-        else if (line[0] == 'C' && line[1] == ' ')
-            game->ceiling = process_rgb_line(line);
-        
-        free(line);
-        if (game->floor && game->ceiling)
-            break;
-    }
-    while ((line = get_next_line(fd)))
-        free(line);
-    close(fd);
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return ;
+	while ((line = get_next_line(fd)))
+	{
+		if (line[0] == 'F' && line[1] == ' ')
+			game->floor = process_rgb_line(line, game);
+		else if (line[0] == 'C' && line[1] == ' ')
+			game->ceiling = process_rgb_line(line, game);
+		free(line);
+		if (game->floor && game->ceiling)
+			break ;
+	}
+	while ((line = get_next_line(fd)))
+		free(line);
+	close(fd);
 }

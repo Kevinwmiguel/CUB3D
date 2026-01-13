@@ -1,8 +1,8 @@
 NAME = game
 CC = cc
 
-SRC = srcs/main.c srcs/player.c srcs/map.c srcs/draws.c \
-      get_next_line/get_next_line.c get_next_line/get_next_line_utils.c srcs/parse_colors.c
+SRC = srcs/main.c srcs/player.c srcs/map.c srcs/draws.c srcs/movments.c srcs/raycasting.c srcs/minimap.c\
+      get_next_line/get_next_line.c get_next_line/get_next_line_utils.c srcs/parse_colors.c srcs/validators.c
 
 OBJ = $(SRC:.c=.o)
 
