@@ -6,13 +6,11 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:37:12 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/13 23:38:15 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/21 00:24:23 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-bool	validate_map(char **map);
 
 bool	is_map_char(char c)
 {
@@ -40,60 +38,61 @@ bool	is_open_to_void(char **map, int y, int x)
 	return (false);
 }
 
+size_t calc_line(char *s)
+{
+	size_t i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+check_englobe(char *current, char *prev, char *next)
+{
+	int i = 0;
+	while ()
+}
+
 bool	validate_map(char **map)
 {
-	int	x;
-	int	y;
-	int	count_zero;
-	int	count_player;
+	int	i;
+	int size;
+	int line;
 
-	count_zero = 0;
-	count_player = 0;
-
-	if (!map || !map[0])
-		return (false);
-
-	/* topo */
-	for (x = 0; map[0][x]; x++)
-		if (map[0][x] != '1' && map[0][x] != ' ')
-			return (false);
-
-	for (y = 0; map[y]; y++)
+	line = 0;
+	size = 0;
+	i = 0;
+	//first line
+	while (map[0][i])
 	{
-		for (x = 0; map[y][x]; x++)
-		{
-			if (!is_map_char(map[y][x]) && map[y][x] != ' ')
-				return (false);
-
-			if (map[y][x] == '0')
-				count_zero++;
-
-			if (is_player_char(map[y][x]))
-				count_player++;
-
-			if (map[y][x] == '0' || is_player_char(map[y][x]))
-				if (is_open_to_void(map, y, x))
-					return (false);
-		}
-
-		/* laterais */
-		if (map[y][0] != '1' && map[y][0] != ' ')
-			return (false);
-		if (map[y][ft_strlen(map[y]) - 1] != '1'
-			&& map[y][ft_strlen(map[y]) - 1] != ' ')
-			return (false);
+		if (map[0][i] != '1' && (map[0][i] != ' ' && map[0][i] != '\t' && map[0][i] != '\r'))
+			return (0);
+		i++;
 	}
-
-	/* fundo */
-	for (x = 0; map[y - 1][x]; x++)
-		if (map[y - 1][x] != '1' && map[y - 1][x] != ' ')
-			return (false);
-
-	if (count_zero < 4)
-		return (false);
-
-	if (count_player != 1)
-		return (false);
-
-	return (true);
+	line = 1;
+	//middle line
+	i = 0;
+	while (map[line])
+	{
+		if (map[line][i] == '0' && map[line - 1] && map[line + 1])
+			check_englobe(map[line], map[line -1], map[line + 1]);
+		size = calc_line(map[line]);
+		if (map[line][0] != '1' && map[line][0] != ' ' && map[line][0] != '\t')
+			return (0);
+		if (map[line][size - 1] != '1' && map[line][size - 1] != ' ' && map[line][size - 1] != '\t')
+			return (0);
+		line++;
+		i++;
+	}
+	//end line
+	i = 0;
+	line = line - 1;
+	while (map[line][i])
+	{
+		if (map[line][0] != '1' && map[line][0] != ' ' && map[line][0] != '\t')
+			return (0);
+		i++;
+	}
+	return (1);
 }
