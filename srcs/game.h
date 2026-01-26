@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/20 17:49:18 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/26 12:55:54 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,14 @@ typedef struct s_cub3d
 	char		*b_hex;
 	char		*tmp;
 	char		*final_hex;
+	int			x_map;
+	int			y_map;
 }				t_cub3d;
 
-bool			validate_map(char **map);
+void			fcleaner(t_cub3d *game);
+bool			is_player_char(char c);
+bool			is_map_char(char c);
+bool			validate_map(t_cub3d *game,char **map);
 void			cast_rays_2d(t_cub3d *game);
 void			cast_rays_3d(t_cub3d *game);
 void			draw_minimap(t_cub3d *game);
@@ -140,13 +145,14 @@ void			paint_floor_and_ceiling(t_cub3d *game);
 int				hex_to_int(const char *hex);
 void			init_player(t_player *player);
 void			draw_square(int x, int y, int size, int color, t_cub3d *game);
-int				key_press(int keycode, t_player *player);
-int				key_release(int keycode, t_player *player);
+int				key_press(int keycode, t_cub3d *game);
+int				key_release(int keycode, t_cub3d *game);
 void			move_player(t_player *player, t_cub3d *game);
 int				draw_loop(t_cub3d *game);
 char			**get_map(char *path);
 void			draw_map(t_cub3d *game);
 void			get_textures(t_cub3d *game, char *path);
 void			draw_minimap_border(t_cub3d *game);
+void			exit_clean(t_cub3d *game);
 
 #endif

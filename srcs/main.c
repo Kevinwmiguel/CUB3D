@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/20 12:23:17 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:27:25 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,10 @@ void	init_cub3d(t_cub3d *game, char *path)
 	game->b_hex = NULL;
 	game->tmp = NULL;
 	game->final_hex = NULL;
+	game->tex[0].img_path = NULL;
+	game->tex[1].img_path = NULL;
+	game->tex[2].img_path = NULL;
+	game->tex[3].img_path = NULL;
 	get_textures(game, path);
 	game->floor = get_floor(path);
 	game->ceiling = get_ceiling(path);
@@ -249,10 +253,11 @@ void	init_cub3d(t_cub3d *game, char *path)
 	if (!game->floor || !game->ceiling)
 		printf("Erro: Cores não encontradas ou mal formatadas!\n");
 	game->map = get_map(path);
-	if (!validate_map(game->map))
+	if (!validate_map(game, game->map))
 	{
 		printf("Mapa inválido\n");
 		/* aqui você faz o que quiser */
+		fcleaner(game);
 		exit(1);
 	}
 	set_player_from_map(game);
@@ -373,13 +378,50 @@ int	draw_loop(t_cub3d *game)
 	return (0);
 }
 
-int	fechar_janela(void *param)
+int	destroy_game(t_cub3d *game)
 {
-	// Vou por um cleaner aqui
-	(void)param;
+	int	i;
+
+	if (!game)
+		exit(0);
+
+	/* MAP */
+	if (game->map)
+	{
+		i = 0;
+		while (game->map[i])
+			free(game->map[i++]);
+		free(game->map);
+	}
+	/* TEXTURES PATHS */
+	i = 0;
+	while (i < 4)
+	{
+		if (game->tex[i].img_path)
+			free(game->tex[i].img_path);
+		i++;
+	}
+	/* COLORS */
+	if (game->floor)
+		free(game->floor);
+	if (game->ceiling)
+		free(game->ceiling);
+	/* MLX IMAGE */
+	if (game->img)
+		mlx_destroy_image(game->mlx, game->img);
+	/* WINDOW */
+	if (game->win)
+		mlx_destroy_window(game->mlx, game->win);
+
+	/* DISPLAY */
+	if (game->mlx)
+	{
+		mlx_destroy_display(game->mlx);
+		free(game->mlx);
+	}
 	exit(0);
-	return (0);
 }
+
 
 int	main(int argc, char **argv)
 {
@@ -388,9 +430,9 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		init_cub3d(&game, argv[1]);
-		mlx_hook(game.win, 2, 1L << 0, key_press, &game.player);
-		mlx_hook(game.win, 3, 1L << 1, key_release, &game.player);
-		mlx_hook(game.win, 17, 0, fechar_janela, NULL);
+		mlx_hook(game.win, 2, 1L << 0, key_press, &game);
+		mlx_hook(game.win, 3, 1L << 1, key_release, &game);
+		mlx_hook(game.win, 17, 0, destroy_game, &game);
 		mlx_loop_hook(game.mlx, draw_loop, &game);
 		mlx_loop(game.mlx);
 	}

@@ -1,0 +1,15 @@
+{
+   X11_uninit
+   Memcheck:Param
+   writev(vector[0])
+   fun:writev
+   obj:/usr/lib/*/libxcb.so*
+   obj:/usr/lib/*/libX11.so*
+}
+
+{
+   X11_leaks
+   Memcheck:Leak
+   obj:/usr/lib/*/libX11.so*
+   obj:/usr/lib/*/libxcb.so*
+}

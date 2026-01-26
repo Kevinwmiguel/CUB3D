@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/13 23:07:44 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/26 11:21:55 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,30 @@ char	*extract_path(char *line)
 	return (path);
 }
 
+void	clean_line(int count, char *line, int fd)
+{
+	while (count > 0)
+	{
+		line = get_next_line(fd);
+		free(line);
+		count--;
+	}
+}
+
 void	get_textures(t_cub3d *game, char *path)
 {
 	int		fd;
 	char	*line;
+	int		j;
 
+	j = 0;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return ;
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
+		j++;
 		if (ft_strncmp(line, "NO ", 3) == 0)
 			game->tex[0].img_path = extract_path(line);
 		else if (ft_strncmp(line, "SO ", 3) == 0)
@@ -69,8 +83,8 @@ void	get_textures(t_cub3d *game, char *path)
 		if (game->tex[0].img_path && game->tex[1].img_path
 			&& game->tex[2].img_path && game->tex[3].img_path)
 			break ;
+		line = get_next_line(fd);
 	}
-	while ((line = get_next_line(fd)))
-		free(line);
+	clean_line(j, line, fd);
 	close(fd);
 }
