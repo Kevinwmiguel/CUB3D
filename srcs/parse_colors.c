@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 20:52:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/26 17:18:51 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/31 18:44:01 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,31 @@ char	*process_rgb_line(char *line, t_cub3d *game)
 	return (game->final_hex);
 }
 
-void parse_colors(t_cub3d *game, char *path)
+void	parse_colors(t_cub3d *game, char *path)
 {
-    int fd;
-    char *line;
+	int		fd;
+	char	*line;
 
-    fd = open(path, O_RDONLY);
-    if (fd < 0)
-        return;
-    line = get_next_line(fd);
-    while (line)
-    {
-        if (line[0] == 'F' && line[1] == ' ')
-            game->floor = process_rgb_line(line, game);
-        else if (line[0] == 'C' && line[1] == ' ')
-            game->ceiling = process_rgb_line(line, game);
-        free(line);
-        if (game->floor && game->ceiling)
-            break;
-        line = get_next_line(fd);
-    }
-    line = get_next_line(fd);
-    while (line)
-    {
-        free(line);
-        line = get_next_line(fd);
-    }
-    close(fd);
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		return ;
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (line[0] == 'F' && line[1] == ' ')
+			game->floor = process_rgb_line(line, game);
+		else if (line[0] == 'C' && line[1] == ' ')
+			game->ceiling = process_rgb_line(line, game);
+		free(line);
+		if (game->floor && game->ceiling)
+			break ;
+		line = get_next_line(fd);
+	}
+	line = get_next_line(fd);
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/26 12:55:54 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/01 18:13:13 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,20 @@ typedef struct s_cub3d
 	char		*final_hex;
 	int			x_map;
 	int			y_map;
+	int			draw_count;
 }				t_cub3d;
 
+
+float			fixed_dist(float x1, float y1, float x2, float y2, t_cub3d *game);
+int				hex_to_int(const char *hex);
+char			*get_ceiling(char *path);
+char			*get_floor(char *path);
+int				destroy_game(t_cub3d *game);
+void			render_rays(t_cub3d *game);
 void			fcleaner(t_cub3d *game);
 bool			is_player_char(char c);
 bool			is_map_char(char c);
-bool			validate_map(t_cub3d *game,char **map);
+bool			validate_map(t_cub3d *game, char **map);
 void			cast_rays_2d(t_cub3d *game);
 void			cast_rays_3d(t_cub3d *game);
 void			draw_minimap(t_cub3d *game);
@@ -135,8 +143,7 @@ int				get_map_height(char **map);
 void			draw_minimap(t_cub3d *game);
 void			cast_rays(t_cub3d *game);
 void			set_player_from_map(t_cub3d *game);
-void			draw_line(t_player *player, t_cub3d *game, float start_x,
-					int i);
+void			draw_line(t_player *p, t_cub3d *g, float angle, int col);
 bool			touch_wall(float px, float py, t_cub3d *game);
 void			ft_free_split(char **s);
 void			parse_colors(t_cub3d *game, char *path);

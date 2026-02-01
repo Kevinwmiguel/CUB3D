@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:38:23 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/26 13:13:11 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/01 18:36:59 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,33 @@ int	is_map_line(char *line)
 	return (*line == '1' || *line == '0');
 }
 
-int map_init(char **map, int fd)
+int	map_init(char **map, int fd)
 {
-    char *line;
-    int i = 0;
-    int map_started = 0;
+	char	*line;
+	int		i;
+	int		map_started;
 
-    line = get_next_line(fd);
-    while (line)
-    {
-        if (!map_started)
-        {
-            if (is_map_line(line))
-                map_started = 1;
-            else
-            {
-                free(line);
-                line = get_next_line(fd);
-                continue;
-            }
-        }
-
-        map[i++] = ft_strtrim(line, "\n");
-        free(line);
-        line = get_next_line(fd);
-    }
-    return (i);
+	i = 0;
+	map_started = 0;
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (!map_started)
+		{
+			if (is_map_line(line))
+				map_started = 1;
+			else
+			{
+				free(line);
+				line = get_next_line(fd);
+				continue ;
+			}
+		}
+		map[i++] = ft_strtrim(line, "\n");
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (i);
 }
 
 char	**get_map(char *path)

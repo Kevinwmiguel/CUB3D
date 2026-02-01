@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:28:52 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/25 18:19:51 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/01 18:42:03 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,19 @@ void	draw_minimap_border(t_cub3d *game)
 
 	left = WIDTH - MINIMAP_SIZE - MINIMAP_MARGIN;
 	top = HEIGHT - MINIMAP_SIZE - MINIMAP_MARGIN;
-	for (x = 0; x < MINIMAP_SIZE; x++)
+	x = 0;
+	y = 0;
+	while (x < MINIMAP_SIZE)
 	{
 		put_pixel(left + x, top, 0x000000, game);
 		put_pixel(left + x, top + MINIMAP_SIZE, 0x000000, game);
+		x++;
 	}
-	for (y = 0; y < MINIMAP_SIZE; y++)
+	while (y < MINIMAP_SIZE)
 	{
 		put_pixel(left, top + y, 0x000000, game);
 		put_pixel(left + MINIMAP_SIZE, top + y, 0x000000, game);
+		y++;
 	}
 }
 
@@ -53,40 +57,46 @@ int	get_map_height(char **map)
 	return (i);
 }
 
-void	draw_minimap(t_cub3d *game)
+void	draw_minimap_block(t_cub3d *game, int map_x, int map_y)
 {
-	int		map_x;
-	int		map_y;
 	int		screen_x;
 	int		screen_y;
 	int		block;
-	int		color;
 	float	world_x;
-	float	world_y;
 
 	block = BLOCK * MINIMAP_SCALE;
-	color = 0x888888;
-	for (map_y = 0; game->map[map_y]; map_y++)
+	world_x = map_x * BLOCK;
+	screen_x = WIDTH - MINIMAP_SIZE - MINIMAP_MARGIN + (world_x
+			- game->player.x) * MINIMAP_SCALE + MINIMAP_SIZE / 2;
+	world_x = map_y * BLOCK;
+	screen_y = HEIGHT - MINIMAP_SIZE - MINIMAP_MARGIN + (world_x
+			- game->player.y) * MINIMAP_SCALE + MINIMAP_SIZE / 2;
+	if (screen_x < WIDTH - MINIMAP_SIZE - MINIMAP_MARGIN)
+		return ;
+	if (screen_x > WIDTH - MINIMAP_MARGIN)
+		return ;
+	if (screen_y < HEIGHT - MINIMAP_SIZE - MINIMAP_MARGIN)
+		return ;
+	if (screen_y > HEIGHT - MINIMAP_MARGIN)
+		return ;
+	draw_square(screen_x, screen_y, block, 0x888888, game);
+}
+
+void	draw_minimap(t_cub3d *game)
+{
+	int	map_x;
+	int	map_y;
+
+	map_y = 0;
+	while (game->map[map_y])
 	{
-		for (map_x = 0; game->map[map_y][map_x]; map_x++)
+		map_x = 0;
+		while (game->map[map_y][map_x])
 		{
-			if (game->map[map_y][map_x] != '1')
-				continue ;
-			/* posição do bloco no mundo */
-			world_x = map_x * BLOCK;
-			world_y = map_y * BLOCK;
-			/* converte mundo → minimapa (player centralizado) */
-			screen_x = WIDTH - MINIMAP_SIZE - MINIMAP_MARGIN + (world_x
-					- game->player.x) * MINIMAP_SCALE + MINIMAP_SIZE / 2;
-			screen_y = HEIGHT - MINIMAP_SIZE - MINIMAP_MARGIN + (world_y
-					- game->player.y) * MINIMAP_SCALE + MINIMAP_SIZE / 2;
-			/* recorte da janela do minimapa */
-			if (screen_x < WIDTH - MINIMAP_SIZE - MINIMAP_MARGIN
-				|| screen_x > WIDTH - MINIMAP_MARGIN || screen_y < HEIGHT
-				- MINIMAP_SIZE - MINIMAP_MARGIN || screen_y > HEIGHT
-				- MINIMAP_MARGIN)
-				continue ;
-			draw_square(screen_x, screen_y, block, color, game);
+			if (game->map[map_y][map_x] == '1')
+				draw_minimap_block(game, map_x, map_y);
+			map_x++;
 		}
+		map_y++;
 	}
 }

@@ -6,70 +6,37 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/26 17:27:25 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/01 18:15:34 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-void	render_rays(t_cub3d *game)
-{
-	int		i;
-	float	ray_angle;
-	float	fov;
-	float	step;
-
-	fov = PI / 3;
-	step = fov / WIDTH;
-	ray_angle = game->player.angle - (fov / 2);
-	i = 0;
-	while (i < WIDTH)
-	{
-		draw_line(&game->player, game, ray_angle, i);
-		ray_angle += step;
-		i++;
-	}
-}
-
-int	hex_to_int(const char *hex)
-{
-	char	tmp[3];
-
-	int r, g, b;
-	if (ft_strlen(hex) != 6)
-		return (0x000000); // preto se inválido
-	tmp[2] = '\0';
-	tmp[0] = hex[0];
-	tmp[1] = hex[1];
-	r = (int)strtol(tmp, NULL, 16);
-	tmp[0] = hex[2];
-	tmp[1] = hex[3];
-	g = (int)strtol(tmp, NULL, 16);
-	tmp[0] = hex[4];
-	tmp[1] = hex[5];
-	b = (int)strtol(tmp, NULL, 16);
-	return (r << 16 | g << 8 | b);
-}
 
 void	paint_floor_and_ceiling(t_cub3d *game)
 {
 	int	color_floor;
 	int	color_ceiling;
 	int	*pixels;
+	int	x;
+	int	y;
 
-	int x, y;
 	color_floor = hex_to_int(game->floor);
 	color_ceiling = hex_to_int(game->ceiling);
 	pixels = (int *)game->data;
-	for (y = 0; y < HEIGHT; y++)
+	x = 0;
+	y = 0;
+	while (y < HEIGHT)
 	{
-		for (x = 0; x < WIDTH; x++)
+		x = 0;
+		while (x < WIDTH)
 		{
 			if (y < HEIGHT / 2)
 				pixels[y * (game->size_line / 4) + x] = color_ceiling;
 			else
 				pixels[y * (game->size_line / 4) + x] = color_floor;
+			x++;
 		}
+		y++;
 	}
 }
 
@@ -87,149 +54,48 @@ void	put_pixel(int x, int y, int color, t_cub3d *game)
 
 void	draw_square(int x, int y, int size, int color, t_cub3d *game)
 {
-	int	i;
-
-	i = 0;
-	while (i < size)
+	while (game->draw_count < size)
 	{
-		put_pixel(x + i, y, color, game);
-		i++;
+		put_pixel(x + game->draw_count, y, color, game);
+		game->draw_count++;
 	}
-	i = 0;
-	while (i < size)
+	game->draw_count = 0;
+	while (game->draw_count < size)
 	{
-		put_pixel(x, y + i, color, game);
-		i++;
+		put_pixel(x, y + game->draw_count, color, game);
+		game->draw_count++;
 	}
-	i = 0;
-	while (i < size)
+	game->draw_count = 0;
+	while (game->draw_count < size)
 	{
-		put_pixel(x + size, y + i, color, game);
-		i++;
+		put_pixel(x + size, y + game->draw_count, color, game);
+		game->draw_count++;
 	}
-	i = 0;
-	while (i < size)
+	game->draw_count = 0;
+	while (game->draw_count < size)
 	{
-		put_pixel(x + i, y + size, color, game);
-		i++;
+		put_pixel(x + game->draw_count, y + size, color, game);
+		game->draw_count++;
 	}
 }
 
 void	clear_image(t_cub3d *game)
 {
-	for (int y = 0; y < HEIGHT; y++)
-		for (int x = 0; x < WIDTH; x++)
+	int	y;
+	int	x;
+
+	x = 0;
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
 			put_pixel(x, y, 0, game);
-}
-
-void	ft_free_split(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		free(s[i++]);
-	free(s);
-}
-
-char	*get_floor(char *path)
-{
-	int		fd;
-	char	*line;
-	char	**temp;
-	char	**temp2;
-	char	*fixedcolor;
-	char	*r;
-	char	*g;
-	char	*b;
-	char	*tmp_join;
-
-	fixedcolor = NULL;
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
-	while ((line = get_next_line(fd)))
-	{
-		if (line[0] == 'F' && line[1] == ' ')
-		{
-			temp = ft_split(line, ' ');
-			if (temp && temp[1])
-			{
-				temp2 = ft_split(temp[1], ',');
-				if (temp2 && temp2[0] && temp2[1] && temp2[2])
-				{
-					r = ft_int_to_hex(ft_atoi(temp2[0]));
-					g = ft_int_to_hex(ft_atoi(temp2[1]));
-					b = ft_int_to_hex(ft_atoi(temp2[2]));
-					tmp_join = ft_strjoin(r, g);
-					fixedcolor = ft_strjoin(tmp_join, b);
-					free(r);
-					free(g);
-					free(b);
-					free(tmp_join);
-				}
-				ft_free_split(temp2);
-			}
-			ft_free_split(temp);
-			free(line);
-			break ;
+			x++;
 		}
-		free(line);
+		y++;
 	}
-	while ((line = get_next_line(fd)))
-		free(line);
-	close(fd);
-	return (fixedcolor);
-}
-
-char	*get_ceiling(char *path)
-{
-	int		fd;
-	char	*line;
-	char	**temp;
-	char	**temp2;
-	char	*fixedcolor;
-	char	*r;
-	char	*g;
-	char	*b;
-	char	*tmp_join;
-
-	fixedcolor = NULL;
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
-	while ((line = get_next_line(fd)))
-	{
-		if (line[0] == 'C' && line[1] == ' ')
-		{
-			temp = ft_split(line, ' ');
-			if (temp && temp[1])
-			{
-				temp2 = ft_split(temp[1], ',');
-				if (temp2 && temp2[0] && temp2[1] && temp2[2])
-				{
-					r = ft_int_to_hex(ft_atoi(temp2[0]));
-					g = ft_int_to_hex(ft_atoi(temp2[1]));
-					b = ft_int_to_hex(ft_atoi(temp2[2]));
-					tmp_join = ft_strjoin(r, g);
-					fixedcolor = ft_strjoin(tmp_join, b);
-					free(r);
-					free(g);
-					free(b);
-					free(tmp_join);
-				}
-				ft_free_split(temp2);
-			}
-			ft_free_split(temp);
-			free(line);
-			break ;
-		}
-		free(line);
-	}
-	while ((line = get_next_line(fd)))
-		free(line);
-	close(fd);
-	return (fixedcolor);
 }
 
 void	init_cub3d(t_cub3d *game, char *path)
@@ -241,6 +107,7 @@ void	init_cub3d(t_cub3d *game, char *path)
 	game->g_hex = NULL;
 	game->b_hex = NULL;
 	game->tmp = NULL;
+	game->draw_count = 0;
 	game->final_hex = NULL;
 	game->tex[0].img_path = NULL;
 	game->tex[1].img_path = NULL;
@@ -256,8 +123,7 @@ void	init_cub3d(t_cub3d *game, char *path)
 	if (!validate_map(game, game->map))
 	{
 		printf("Mapa inválido\n");
-		/* aqui você faz o que quiser */
-		fcleaner(game);
+		destroy_game(game);
 		exit(1);
 	}
 	set_player_from_map(game);
@@ -300,52 +166,6 @@ float	fixed_dist(float x1, float y1, float x2, float y2, t_cub3d *game)
 	return (fix_dist);
 }
 
-void	draw_line(t_player *player, t_cub3d *game, float ray_angle, int column)
-{
-	float	ray_x;
-	float	ray_y;
-	float	step_x;
-	float	step_y;
-	int		screen_x;
-	int		screen_y;
-	float	dist;
-	float	wall_height;
-	int		start;
-	int		end;
-
-	ray_x = player->x;
-	ray_y = player->y;
-	step_x = cos(ray_angle);
-	step_y = sin(ray_angle);
-	while (!touch_wall(ray_x, ray_y, game))
-	{
-		if (DEBUG)
-		{
-			screen_x = ray_x - player->x + WIDTH / 2;
-			screen_y = ray_y - player->y + HEIGHT / 2;
-			put_pixel(screen_x, screen_y, 0xFFFF00, game);
-		}
-		ray_x += step_x;
-		ray_y += step_y;
-	}
-	if (!DEBUG)
-	{
-		dist = fixed_dist(player->x, player->y, ray_x, ray_y, game);
-		wall_height = (BLOCK / dist) * (WIDTH / 2);
-		start = (HEIGHT / 2) - (wall_height / 2);
-		end = (HEIGHT / 2) + (wall_height / 2);
-		if (start < 0)
-			start = 0;
-		if (end > HEIGHT)
-			end = HEIGHT;
-		while (start < end)
-		{
-			put_pixel(column, start, 0xE10AFF, game);
-			start++;
-		}
-	}
-}
-
 void	draw_player(t_cub3d *game)
 {
 	int	cx;
@@ -377,51 +197,6 @@ int	draw_loop(t_cub3d *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
 	return (0);
 }
-
-int	destroy_game(t_cub3d *game)
-{
-	int	i;
-
-	if (!game)
-		exit(0);
-
-	/* MAP */
-	if (game->map)
-	{
-		i = 0;
-		while (game->map[i])
-			free(game->map[i++]);
-		free(game->map);
-	}
-	/* TEXTURES PATHS */
-	i = 0;
-	while (i < 4)
-	{
-		if (game->tex[i].img_path)
-			free(game->tex[i].img_path);
-		i++;
-	}
-	/* COLORS */
-	if (game->floor)
-		free(game->floor);
-	if (game->ceiling)
-		free(game->ceiling);
-	/* MLX IMAGE */
-	if (game->img)
-		mlx_destroy_image(game->mlx, game->img);
-	/* WINDOW */
-	if (game->win)
-		mlx_destroy_window(game->mlx, game->win);
-
-	/* DISPLAY */
-	if (game->mlx)
-	{
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-	}
-	exit(0);
-}
-
 
 int	main(int argc, char **argv)
 {

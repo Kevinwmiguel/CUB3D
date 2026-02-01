@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:37:12 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/26 11:59:31 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/01 18:43:15 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	check_englobe(char *current, char *prev, char *next)
 	return (1);
 }
 
-bool	validate_map(t_cub3d *game,char **map)
+bool	validate_map(t_cub3d *game, char **map)
 {
 	int	i;
 	int	line;
@@ -92,8 +92,8 @@ bool	validate_map(t_cub3d *game,char **map)
 			{
 				if (!check_englobe(map[line], map[line - 1], map[line + 1]))
 				{
-					fcleaner(game);
-					exit(1);
+					printf("Some element is wrong!\n");
+					destroy_game(game);
 				}
 			}
 			i++;

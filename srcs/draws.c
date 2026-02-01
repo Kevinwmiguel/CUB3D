@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/26 11:21:55 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/31 18:33:52 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,18 @@ void	clean_line(int count, char *line, int fd)
 	}
 }
 
+void	extract_helper(t_cub3d *game, char *line)
+{
+	if (ft_strncmp(line, "NO ", 3) == 0)
+		game->tex[0].img_path = extract_path(line);
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+		game->tex[1].img_path = extract_path(line);
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+		game->tex[2].img_path = extract_path(line);
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+		game->tex[3].img_path = extract_path(line);
+}
+
 void	get_textures(t_cub3d *game, char *path)
 {
 	int		fd;
@@ -71,14 +83,7 @@ void	get_textures(t_cub3d *game, char *path)
 	while (line)
 	{
 		j++;
-		if (ft_strncmp(line, "NO ", 3) == 0)
-			game->tex[0].img_path = extract_path(line);
-		else if (ft_strncmp(line, "SO ", 3) == 0)
-			game->tex[1].img_path = extract_path(line);
-		else if (ft_strncmp(line, "WE ", 3) == 0)
-			game->tex[2].img_path = extract_path(line);
-		else if (ft_strncmp(line, "EA ", 3) == 0)
-			game->tex[3].img_path = extract_path(line);
+		extract_helper(game, line);
 		free(line);
 		if (game->tex[0].img_path && game->tex[1].img_path
 			&& game->tex[2].img_path && game->tex[3].img_path)

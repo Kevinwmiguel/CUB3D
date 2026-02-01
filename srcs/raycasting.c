@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:28:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/13 23:31:09 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/01/31 18:43:36 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,25 @@ void	cast_rays_2d(t_cub3d *game)
 			ray_x += cos(ray_angle);
 			ray_y += sin(ray_angle);
 		}
+		ray_angle += step;
+		i++;
+	}
+}
+
+void	render_rays(t_cub3d *game)
+{
+	int		i;
+	float	ray_angle;
+	float	fov;
+	float	step;
+
+	fov = PI / 3;
+	step = fov / WIDTH;
+	ray_angle = game->player.angle - (fov / 2);
+	i = 0;
+	while (i < WIDTH)
+	{
+		draw_line(&game->player, game, ray_angle, i);
 		ray_angle += step;
 		i++;
 	}
