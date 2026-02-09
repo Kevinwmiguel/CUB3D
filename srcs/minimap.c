@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:28:52 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/01 18:42:03 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/09 00:49:18 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	draw_player_minimap(t_cub3d *game)
 
 	cx = WIDTH - MINIMAP_SIZE / 2 - MINIMAP_MARGIN;
 	cy = HEIGHT - MINIMAP_SIZE / 2 - MINIMAP_MARGIN;
-	draw_square(cx - 3, cy - 3, 6, 0x00FF00, game);
+	game->colorhelp = 0x00FF00;
+	draw_square(cx - 3, cy - 3, 6, game);
 }
 
 int	get_map_height(char **map)
@@ -79,7 +80,8 @@ void	draw_minimap_block(t_cub3d *game, int map_x, int map_y)
 		return ;
 	if (screen_y > HEIGHT - MINIMAP_MARGIN)
 		return ;
-	draw_square(screen_x, screen_y, block, 0x888888, game);
+	game->colorhelp = 0x888888;
+	draw_square(screen_x, screen_y, block, game);
 }
 
 void	draw_minimap(t_cub3d *game)

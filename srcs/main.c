@@ -6,102 +6,17 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/01 18:15:34 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/09 00:59:08 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-void	paint_floor_and_ceiling(t_cub3d *game)
-{
-	int	color_floor;
-	int	color_ceiling;
-	int	*pixels;
-	int	x;
-	int	y;
-
-	color_floor = hex_to_int(game->floor);
-	color_ceiling = hex_to_int(game->ceiling);
-	pixels = (int *)game->data;
-	x = 0;
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			if (y < HEIGHT / 2)
-				pixels[y * (game->size_line / 4) + x] = color_ceiling;
-			else
-				pixels[y * (game->size_line / 4) + x] = color_floor;
-			x++;
-		}
-		y++;
-	}
-}
-
-void	put_pixel(int x, int y, int color, t_cub3d *game)
-{
-	int	index;
-
-	if (x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
-		return ;
-	index = y * game->size_line + x * game->bpp / 8;
-	game->data[index] = color & 0xFF;
-	game->data[index + 1] = (color >> 8) & 0xFF;
-	game->data[index + 2] = (color >> 16) & 0xFF;
-}
-
-void	draw_square(int x, int y, int size, int color, t_cub3d *game)
-{
-	while (game->draw_count < size)
-	{
-		put_pixel(x + game->draw_count, y, color, game);
-		game->draw_count++;
-	}
-	game->draw_count = 0;
-	while (game->draw_count < size)
-	{
-		put_pixel(x, y + game->draw_count, color, game);
-		game->draw_count++;
-	}
-	game->draw_count = 0;
-	while (game->draw_count < size)
-	{
-		put_pixel(x + size, y + game->draw_count, color, game);
-		game->draw_count++;
-	}
-	game->draw_count = 0;
-	while (game->draw_count < size)
-	{
-		put_pixel(x + game->draw_count, y + size, color, game);
-		game->draw_count++;
-	}
-}
-
-void	clear_image(t_cub3d *game)
-{
-	int	y;
-	int	x;
-
-	x = 0;
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			put_pixel(x, y, 0, game);
-			x++;
-		}
-		y++;
-	}
-}
-
 void	init_cub3d(t_cub3d *game, char *path)
 {
 	init_player(&game->player);
 	game->tab = NULL;
+	game->colorhelp = 0;
 	game->rgb = NULL;
 	game->r_hex = NULL;
 	game->g_hex = NULL;
@@ -152,50 +67,18 @@ float	distance(float x, float y)
 	return (sqrt(x * x + y * y));
 }
 
-float	fixed_dist(float x1, float y1, float x2, float y2, t_cub3d *game)
+float	fixed_dist(t_cub3d *game)
 {
 	float	delta_x;
 	float	delta_y;
 	float	angle;
 	float	fix_dist;
 
-	delta_x = x2 - x1;
-	delta_y = y2 - y1;
+	delta_x = game->x2 - game->x1;
+	delta_y = game->y2 - game->y1;
 	angle = atan2(delta_y, delta_x) - game->player.angle;
 	fix_dist = distance(delta_x, delta_y) * cos(angle);
 	return (fix_dist);
-}
-
-void	draw_player(t_cub3d *game)
-{
-	int	cx;
-	int	cy;
-
-	cx = WIDTH / 2;
-	cy = HEIGHT / 2;
-	draw_square(cx - 15, cy - 15, 10, 0x00FF00, game);
-}
-
-int	draw_loop(t_cub3d *game)
-{
-	move_player(&game->player, game);
-	clear_image(game);
-	paint_floor_and_ceiling(game);
-	if (DEBUG)
-	{
-		draw_map(game);
-		draw_player(game);
-		cast_rays_2d(game);
-	}
-	else
-	{
-		cast_rays_3d(game);
-		draw_minimap(game);
-		draw_player_minimap(game);
-		draw_minimap_border(game);
-	}
-	mlx_put_image_to_window(game->mlx, game->win, game->img, 0, 0);
-	return (0);
 }
 
 int	main(int argc, char **argv)

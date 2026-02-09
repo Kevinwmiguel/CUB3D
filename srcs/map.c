@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:38:23 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/01 18:36:59 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/09 00:50:44 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,8 @@ void	draw_map(t_cub3d *game)
 {
 	int	screen_x;
 	int	screen_y;
-	int	color;
 
-	color = 0xFF00FF;
+	game->colorhelp = 0xFF00FF;
 	game->y_map = 0;
 	while (game->map[game->y_map][game->x_map])
 	{
@@ -84,7 +83,7 @@ void	draw_map(t_cub3d *game)
 					continue ;
 				if (screen_y + BLOCK < 0 || screen_y > HEIGHT)
 					continue ;
-				draw_square(screen_x, screen_y, BLOCK, color, game);
+				draw_square(screen_x, screen_y, BLOCK, game);
 			}
 			game->x_map++;
 		}

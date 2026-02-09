@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 12:12:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/01 18:22:26 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/01 23:56:44 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,23 @@ int	destroy_game(t_cub3d *game)
 		free(game->mlx);
 	}
 	exit(0);
+}
+
+void	clear_image(t_cub3d *game)
+{
+	int	y;
+	int	x;
+
+	x = 0;
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			put_pixel(x, y, 0, game);
+			x++;
+		}
+		y++;
+	}
 }
