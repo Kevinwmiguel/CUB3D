@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:37:12 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/01 18:43:15 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/14 14:33:30 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,50 +62,6 @@ int	check_englobe(char *current, char *prev, char *next)
 			if (!next || i >= (int)ft_strlen(next) || !valid_elements(next[i]))
 				return (0);
 		}
-		i++;
-	}
-	return (1);
-}
-
-bool	validate_map(t_cub3d *game, char **map)
-{
-	int	i;
-	int	line;
-
-	line = 0;
-	i = 0;
-	while (map[0][i])
-	{
-		if (map[0][i] != '1' && (map[0][i] != ' ' && map[0][i] != '\t'
-				&& map[0][i] != '\r'))
-			return (0);
-		i++;
-	}
-	line = 1;
-	i = 0;
-	while (map[line])
-	{
-		i = 0;
-		while (map[line][i])
-		{
-			if (map[line][i] == '0')
-			{
-				if (!check_englobe(map[line], map[line - 1], map[line + 1]))
-				{
-					printf("Some element is wrong!\n");
-					destroy_game(game);
-				}
-			}
-			i++;
-		}
-		line++;
-	}
-	i = 0;
-	line = line - 1;
-	while (map[line][i])
-	{
-		if (map[line][0] != '1' && map[line][0] != ' ' && map[line][0] != '\t')
-			return (0);
 		i++;
 	}
 	return (1);

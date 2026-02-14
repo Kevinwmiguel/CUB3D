@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:28:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/31 18:43:36 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/14 14:26:21 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	cast_rays_3d(t_cub3d *game)
 	float	step;
 	int		i;
 
-	step = FOV / WIDTH;
-	ray_angle = game->player.angle - (FOV / 2);
+	step = game->fov / WIDTH;
+	ray_angle = game->player.angle - (game->fov / 2);
 	i = 0;
 	while (i < WIDTH)
 	{
@@ -37,8 +37,8 @@ void	cast_rays_2d(t_cub3d *game)
 	float	ray_y;
 	int		i;
 
-	step = FOV / 120;
-	ray_angle = game->player.angle - (FOV / 2);
+	step = game->fov / 120;
+	ray_angle = game->player.angle - (game->fov / 2);
 	i = 0;
 	while (i < 120)
 	{

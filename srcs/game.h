@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/09 00:57:20 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/14 14:38:27 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define MINIMAP_SCALE 0.2
 # define MINIMAP_MARGIN 20
 # define DEBUG 0
-# define FOV (PI / 3)
 # define W 119
 # define A 97
 # define S 115
@@ -122,8 +121,15 @@ typedef struct s_cub3d
 	float		y1;
 	float		x2;
 	float		y2;
+	float		fov;
 }				t_cub3d;
 
+int				check_englobe(char *current, char *prev, char *next);
+float			distance(float x, float y);
+bool			touch(float px, float py, t_cub3d *game);
+float			fixed_dist(t_cub3d *game);
+void			ready_go(t_cub3d *game);
+void			init_cub3d(t_cub3d *game, char *path);
 float			fixed_dist(t_cub3d *game);
 int				hex_to_int(const char *hex);
 char			*get_ceiling(char *path);
