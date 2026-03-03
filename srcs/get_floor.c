@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_floor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:56:40 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/01 18:36:12 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/24 20:09:06 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static char	*build_floor_color(char **temp2)
 	char	*g;
 	char	*b;
 	char	*color;
+	char	*tmp;
 
 	color = NULL;
 	if (temp2 && temp2[0] && temp2[1] && temp2[2])
@@ -35,8 +36,9 @@ static char	*build_floor_color(char **temp2)
 		r = ft_int_to_hex(ft_atoi(temp2[0]));
 		g = ft_int_to_hex(ft_atoi(temp2[1]));
 		b = ft_int_to_hex(ft_atoi(temp2[2]));
-		color = ft_strjoin(r, g);
+		tmp = ft_strjoin(r, g);
 		color = ft_strjoin(color, b);
+		free(tmp);
 		free(r);
 		free(g);
 		free(b);
@@ -82,6 +84,6 @@ char	*get_floor(char *path)
 		return (NULL);
 	line = get_next_line(fd);
 	temp = NULL;
-	floor_helper(line, temp, color, fd);
+	color = floor_helper(line, temp, color, fd);
 	return (color);
 }

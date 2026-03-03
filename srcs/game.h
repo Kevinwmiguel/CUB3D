@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:38:27 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/24 21:30:58 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 #ifndef GAME_H
 # define GAME_H
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1080
+# define HEIGHT 720
 # define BLOCK 64
 # define MINIMAP_PADDING 20
 # define MINIMAP_SIZE 180
@@ -55,6 +55,8 @@ typedef struct s_texture
 	char		*type;
 	char		*img_path;
 	char		*data;
+	int			width;
+	int			height;
 	int			bpp;
 	int			size_line;
 	int			endian;
@@ -91,6 +93,31 @@ typedef struct s_configs
 	int			block;
 }				t_configs;
 
+typedef struct s_hit
+{
+	float	wall_x;
+	int		side;
+	int		tex_id;
+}			t_hit;
+
+typedef struct s_wall
+{
+	t_texture	*tex;
+	int			tex_x;
+	int			tex_y;
+	float		wall_height;
+	float		step;
+	float		tex_pos;
+}				t_wall;
+
+typedef struct s_wcol
+{
+	int		col;
+	int		start;
+	int		end;
+	float	dist;
+}			t_wcol;
+
 typedef struct s_cub3d
 {
 	void		*mlx;
@@ -122,6 +149,7 @@ typedef struct s_cub3d
 	float		x2;
 	float		y2;
 	float		fov;
+	t_hit		hit;
 }				t_cub3d;
 
 int				check_englobe(char *current, char *prev, char *next);
@@ -176,5 +204,6 @@ void			put_pixel(int x, int y, int color, t_cub3d *game);
 void			paint_floor_and_ceiling(t_cub3d *game);
 int				draw_loop(t_cub3d *game);
 void			draw_player(t_cub3d *game);
+void			trace_ray(t_cub3d *g, float angle, float *pos);
 
 #endif

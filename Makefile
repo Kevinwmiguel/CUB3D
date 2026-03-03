@@ -7,7 +7,7 @@ CC = cc
 SRC = srcs/main.c srcs/player.c srcs/map.c srcs/draws.c srcs/movments.c srcs/raycasting.c srcs/minimap.c\
       get_next_line/get_next_line.c get_next_line/get_next_line_utils.c srcs/parse_colors.c srcs/validators.c\
 	  srcs/player_val.c srcs/cleaners.c srcs/get_floor.c srcs/get_ceiling.c srcs/transform.c srcs/draws2.c\
-	  srcs/draws3.c srcs/painting.c	srcs/init.c srcs/validators2.c srcs/utils.c
+	  srcs/draws3.c srcs/painting.c	srcs/init.c srcs/validators2.c srcs/utils.c srcs/init2.c srcs/draws4.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -22,22 +22,30 @@ CFLAGS = -Wall -Wextra -Werror -g
 
 all: $(LIBFT_LIB) $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) $(LIBFT_LIB) $(LFLAGS) -o $(NAME)
-
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null
+
+$(NAME): $(OBJ)
+	@echo "Compiling game..."
+	@$(CC) $(OBJ) $(LIBFT_LIB) $(LFLAGS) -o $(NAME) > /dev/null
+	@echo "Game is ready!"
 
 $(LIBFT_LIB):
-	make -C $(LIBFT_DIR)
+	@echo "Compiling libft..."
+	@make -C $(LIBFT_DIR) > /dev/null
+	@echo "Libft is ready!"
 
 clean:
-	rm -f $(OBJ)
-	make -C $(LIBFT_DIR) clean
+	@echo "Cleaning objects..."
+	@rm -f $(OBJ) > /dev/null
+	@make -C $(LIBFT_DIR) clean > /dev/null
+	@echo "Cleaned objects!"
 
 fclean: clean
-	rm -f $(NAME)
-	make -C $(LIBFT_DIR) fclean
+	@echo "Cleaning project..."
+	@rm -f $(NAME) > /dev/null
+	@make -C $(LIBFT_DIR) fclean > /dev/null
+	@echo "All cleaned!"
 
 re: fclean all
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draws.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:25:43 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/02/22 19:35:35 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	clean_line(int count, char *line, int fd)
 	}
 }
 
-void	extract_helper(t_cub3d *game, char *line)
+static void	extract_helper(t_cub3d *game, char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		game->tex[0].img_path = extract_path(line);
