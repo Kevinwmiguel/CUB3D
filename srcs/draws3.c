@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draws3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 23:55:24 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/24 21:26:47 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/03/04 17:11:58 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,5 @@ void	draw_square(int x, int y, int size, t_cub3d *game)
 		put_pixel(x + game->draw_count, y + size, game->colorhelp, game);
 		game->draw_count++;
 	}
+	//problemas aqui em cima para o minimap + problemas de render de imagens
 }
