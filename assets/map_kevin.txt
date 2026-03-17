@@ -1,8 +1,8 @@
 F 50,0,45
 C 100,0,150
 
-NO assets/parede.xpm
-SO assets/parede2.xpm
+NO assets/north.xpm
+SO assets/south.xpm
 WE assets/west.xpm
 EA assets/east.xpm
 
