@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/24 21:30:58 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/04/27 23:16:46 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,5 +205,6 @@ void			paint_floor_and_ceiling(t_cub3d *game);
 int				draw_loop(t_cub3d *game);
 void			draw_player(t_cub3d *game);
 void			trace_ray(t_cub3d *g, float angle, float *pos);
+int				check_map_name(char *av);
 
 #endif

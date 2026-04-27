@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:34:41 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:35:35 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/04/27 23:16:22 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,25 @@ float	fixed_dist(t_cub3d *game)
 	angle = atan2(delta_y, delta_x) - game->player.angle;
 	fix_dist = distance(delta_x, delta_y) * cos(angle);
 	return (fix_dist);
+}
+
+int	check_map_name(char *av)
+{
+	//int		fd;
+	char	*first_dot;
+	char	*last_dot;
+
+	//fd = open(av, O_RDONLY);
+	//if (fd == -1)
+		//return (ft_putstr_fd("Error\nInvalid map file\n", 2), 1);
+	//close (fd);
+	first_dot = ft_strchr(av, '.');
+	last_dot = ft_strrchr(av, '.');
+	if (last_dot == NULL || last_dot == av)
+		return (1);
+	if (first_dot != last_dot)
+		return (1);
+	if (ft_strncmp(last_dot, ".cub", 4) != 0)
+		return (1);
+	return (0);
 }
