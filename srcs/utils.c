@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:34:41 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/27 23:16:22 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/04/27 23:23:26 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,17 @@ float	fixed_dist(t_cub3d *game)
 
 int	check_map_name(char *av)
 {
-	//int		fd;
+	int		fd;
 	char	*first_dot;
 	char	*last_dot;
 
-	//fd = open(av, O_RDONLY);
-	//if (fd == -1)
-		//return (ft_putstr_fd("Error\nInvalid map file\n", 2), 1);
-	//close (fd);
+	fd = open(av, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		exit(1);
+	}
+	close (fd);
 	first_dot = ft_strchr(av, '.');
 	last_dot = ft_strrchr(av, '.');
 	if (last_dot == NULL || last_dot == av)
