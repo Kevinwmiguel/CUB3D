@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/22 19:35:35 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/04/27 23:03:47 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void	get_textures(t_cub3d *game, char *path)
 	j = 0;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return ;
+	{
+		perror("Error opening file");
+		exit(1);
+	}
 	line = get_next_line(fd);
 	while (line)
 	{

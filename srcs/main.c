@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 12:30:13 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/04/27 22:53:58 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	main(int argc, char **argv)
 		mlx_hook(game.win, 17, 0, destroy_game, &game);
 		mlx_loop_hook(game.mlx, draw_loop, &game);
 		mlx_loop(game.mlx);
+		return (0);
 	}
-	return (0);
+	ft_putstr_fd("Wrong number of arguments\n", 2);
+	return (1);
 }
