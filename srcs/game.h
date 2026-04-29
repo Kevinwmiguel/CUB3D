@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/29 21:00:18 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/04/29 23:17:31 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,14 @@ typedef struct s_wcol
 	float	dist;
 }			t_wcol;
 
+typedef struct s_rayhit
+{
+	float	prev_x;
+	float	prev_y;
+	float	step_x;
+	float	step_y;
+}				t_rayhit;
+
 typedef struct s_cub3d
 {
 	void		*mlx;
@@ -150,6 +158,7 @@ typedef struct s_cub3d
 	float		y2;
 	float		fov;
 	t_hit		hit;
+	t_rayhit	ray_hit;
 }				t_cub3d;
 
 int				check_englobe(char *current, char *prev, char *next);

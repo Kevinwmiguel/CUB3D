@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draws3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 23:55:24 by kwillian          #+#    #+#             */
-/*   Updated: 2026/03/04 17:11:58 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/04/29 22:24:54 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,18 @@ int	draw_loop(t_cub3d *game)
 
 void	draw_square(int x, int y, int size, t_cub3d *game)
 {
-	while (game->draw_count < size)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < size)
 	{
-		put_pixel(x + game->draw_count, y, game->colorhelp, game);
-		game->draw_count++;
+		j = 0;
+		while (j < size)
+		{
+			put_pixel(x + j, y + i, game->colorhelp, game);
+			j++;
+		}
+		i++;
 	}
-	game->draw_count = 0;
-	while (game->draw_count < size)
-	{
-		put_pixel(x, y + game->draw_count, game->colorhelp, game);
-		game->draw_count++;
-	}
-	game->draw_count = 0;
-	while (game->draw_count < size)
-	{
-		put_pixel(x + size, y + game->draw_count, game->colorhelp, game);
-		game->draw_count++;
-	}
-	game->draw_count = 0;
-	while (game->draw_count < size)
-	{
-		put_pixel(x + game->draw_count, y + size, game->colorhelp, game);
-		game->draw_count++;
-	}
-	//problemas aqui em cima para o minimap + problemas de render de imagens
 }
