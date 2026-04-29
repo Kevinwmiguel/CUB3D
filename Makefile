@@ -50,5 +50,5 @@ fclean: clean
 re: fclean all
 
 vg: all
-	$(VALGRIND) ./$(NAME) assets/map_kevin.cub
+	$(VALGRIND) --leak-check=full --suppressions=mlx.supp ./$(NAME) assets/map_kevin.cub
 

@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/27 23:16:46 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/04/29 21:00:18 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ float			distance(float x, float y);
 bool			touch(float px, float py, t_cub3d *game);
 float			fixed_dist(t_cub3d *game);
 void			ready_go(t_cub3d *game);
-void			init_cub3d(t_cub3d *game, char *path);
+int				init_cub3d(t_cub3d *game, char *path);
 float			fixed_dist(t_cub3d *game);
 int				hex_to_int(const char *hex);
 char			*get_ceiling(char *path);

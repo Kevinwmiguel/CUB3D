@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:56:40 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/24 20:09:06 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/04/29 20:36:05 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*build_floor_color(char **temp2)
 		g = ft_int_to_hex(ft_atoi(temp2[1]));
 		b = ft_int_to_hex(ft_atoi(temp2[2]));
 		tmp = ft_strjoin(r, g);
-		color = ft_strjoin(color, b);
+		color = ft_strjoin(tmp, b);
 		free(tmp);
 		free(r);
 		free(g);
@@ -48,12 +48,16 @@ static char	*build_floor_color(char **temp2)
 
 static char	*floor_helper(char *line, char **temp, char *color, int fd)
 {
+	char	**rgb_split;
+
 	while (line)
 	{
 		if (line[0] == 'F' && line[1] == ' ')
 		{
 			temp = ft_split(line, ' ');
-			color = build_floor_color(ft_split(temp[1], ','));
+			rgb_split = ft_split(temp[1], ',');
+			color = build_floor_color(rgb_split);
+			ft_free_split(rgb_split);
 			ft_free_split(temp);
 			free(line);
 			break ;

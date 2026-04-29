@@ -1,15 +1,60 @@
 {
-   X11_uninit
+   X11_writev_uninit
    Memcheck:Param
    writev(vector[0])
    fun:writev
-   obj:/usr/lib/*/libxcb.so*
-   obj:/usr/lib/*/libX11.so*
+   ...
 }
 
 {
-   X11_leaks
+   X11_Xext_leak
    Memcheck:Leak
-   obj:/usr/lib/*/libX11.so*
-   obj:/usr/lib/*/libxcb.so*
+   ...
+   fun:XShmCreateImage
+   ...
+}
+
+{
+   X11_mlx_leak
+   Memcheck:Leak
+   ...
+   fun:mlx_int_new_xshm_image
+   ...
+}
+
+{
+   X11_mlx_xpm_leak
+   Memcheck:Leak
+   ...
+   fun:mlx_xpm_file_to_image
+   ...
+}
+
+{
+   X11_display_leak
+   Memcheck:Leak
+   ...
+   fun:XOpenDisplay
+   ...
+}
+
+{
+   X11_all_leaks
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libX11.so*
+}
+
+{
+   X11_ext_leaks
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libXext.so*
+}
+
+{
+   XCB_leaks
+   Memcheck:Leak
+   ...
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so*
 }
