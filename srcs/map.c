@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:38:23 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/09 00:50:44 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/05 21:23:38 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,36 +63,36 @@ char	**get_map(char *path)
 	return (map);
 }
 
-void	draw_map(t_cub3d *game)
+static void	draw_map_row(t_cub3d *game, int y)
 {
 	int	screen_x;
 	int	screen_y;
+	int	x;
 
-	game->colorhelp = 0xFF00FF;
-	game->y_map = 0;
-	while (game->map[game->y_map][game->x_map])
+	x = 0;
+	while (game->map[y][x])
 	{
-		game->x_map = 0;
-		while (game->map[game->y_map][game->x_map])
+		if (game->map[y][x] == '1')
 		{
-			if (game->map[game->y_map][game->x_map] == '1')
-			{
-				screen_x = game->x_map * BLOCK - game->player.x + WIDTH / 2;
-				screen_y = game->y_map * BLOCK - game->player.y + HEIGHT / 2;
-				if (screen_x + BLOCK < 0 || screen_x > WIDTH)
-					continue ;
-				if (screen_y + BLOCK < 0 || screen_y > HEIGHT)
-					continue ;
+			screen_x = x * BLOCK - game->player.x + WIDTH / 2;
+			screen_y = y * BLOCK - game->player.y + HEIGHT / 2;
+			if (screen_x + BLOCK >= 0 && screen_x <= WIDTH
+				&& screen_y + BLOCK >= 0 && screen_y <= HEIGHT)
 				draw_square(screen_x, screen_y, BLOCK, game);
-			}
-			game->x_map++;
 		}
-		game->y_map++;
+		x++;
 	}
 }
 
-bool	is_map_char(char c)
+void	draw_map(t_cub3d *game)
 {
-	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E'
-		|| c == 'W');
+	int	y;
+
+	game->colorhelp = 0xFF00FF;
+	y = 0;
+	while (game->map[y])
+	{
+		draw_map_row(game, y);
+		y++;
+	}
 }

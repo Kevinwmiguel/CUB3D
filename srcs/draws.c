@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/27 23:22:32 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/05 20:21:14 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cast_rays(t_cub3d *game)
 	i = 0;
 	while (i < WIDTH)
 	{
-		draw_line(&game->player, game, ray_angle, i);
+		draw_line(game, ray_angle, i);
 		ray_angle += step;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:34:41 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/27 23:23:26 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/05 21:11:46 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,6 @@ bool	touch(float px, float py, t_cub3d *game)
 float	distance(float x, float y)
 {
 	return (sqrt(x * x + y * y));
-}
-
-float	fixed_dist(t_cub3d *game)
-{
-	float	delta_x;
-	float	delta_y;
-	float	angle;
-	float	fix_dist;
-
-	delta_x = game->x2 - game->x1;
-	delta_y = game->y2 - game->y1;
-	angle = atan2(delta_y, delta_x) - game->player.angle;
-	fix_dist = distance(delta_x, delta_y) * cos(angle);
-	return (fix_dist);
 }
 
 int	check_map_name(char *av)

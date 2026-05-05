@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 12:28:30 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/29 23:17:03 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/05 20:52:29 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	validate_and_start(t_cub3d *game)
 		return (-1);
 	}
 	set_player_from_map(game);
+	calculate_map_dimensions(game);
 	ready_go(game);
 	return (0);
 }

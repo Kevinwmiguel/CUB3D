@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:28:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:26:21 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/05 20:22:00 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cast_rays_3d(t_cub3d *game)
 	i = 0;
 	while (i < WIDTH)
 	{
-		draw_line(&game->player, game, ray_angle, i);
+		draw_line(game, ray_angle, i);
 		ray_angle += step;
 		i++;
 	}
@@ -69,7 +69,7 @@ void	render_rays(t_cub3d *game)
 	i = 0;
 	while (i < WIDTH)
 	{
-		draw_line(&game->player, game, ray_angle, i);
+		draw_line(game, ray_angle, i);
 		ray_angle += step;
 		i++;
 	}
