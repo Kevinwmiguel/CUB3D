@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/05 21:09:29 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/08 17:10:50 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define MINIMAP_SIZE 180
 # define MINIMAP_SCALE 0.2
 # define MINIMAP_MARGIN 20
-# define DEBUG 0
+# define DEBUG 1
 # define W 119
 # define A 97
 # define S 115

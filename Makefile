@@ -1,7 +1,7 @@
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=definite \
 --track-origins=yes --suppressions=mlx.supp
 
-NAME = game
+NAME = cub3D
 CC = cc
 
 SRC = srcs/main.c srcs/player.c srcs/map.c srcs/draws.c srcs/movments.c srcs/raycasting.c srcs/minimap.c\

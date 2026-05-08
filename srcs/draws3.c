@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draws3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 23:55:24 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/29 22:24:54 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/08 17:22:44 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	draw_player(t_cub3d *game)
 	cx = WIDTH / 2;
 	cy = HEIGHT / 2;
 	game->colorhelp = 0x00FF00;
-	draw_square(cx - 15, cy - 15, 10, game);
+	draw_square(cx - 5, cy - 5, 10, game);
 }
 
 int	draw_loop(t_cub3d *game)
