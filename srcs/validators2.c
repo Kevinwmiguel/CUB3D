@@ -72,7 +72,7 @@ int	check_elements(char **map)
 			if (map[i][j] == 'N' || map[i][j] == 'S'
 				|| map[i][j] == 'E' || map[i][j] == 'W')
 				player++;
-			else if (map[i][j] != '1' && map[i][j] != '0')
+			else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ')
 				return (0);
 			j++;
 		}
@@ -89,14 +89,14 @@ bool	validate_map(t_cub3d *game, char **map)
 
 	if (!check_first_last_line(map[0]))
 		return (0);
+	if (!check_elements(map))
+		return (0);
 	if (!check_middle_lines(game, map))
 		return (0);
 	last = 0;
 	while (map[last])
 		last++;
 	if (!check_first_last_line(map[last - 1]))
-		return (0);
-	if (!check_elements(map))
 		return (0);
 	return (1);
 }
