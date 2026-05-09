@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 12:28:30 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/05 20:52:29 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/09 08:28:23 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 static void	init_values(t_cub3d *game)
 {
+	game->mlx = NULL;
+	game->win = NULL;
+	game->img = NULL;
+	game->map = NULL;
 	init_player(&game->player);
 	game->tab = NULL;
 	game->fov = (PI / 3);
