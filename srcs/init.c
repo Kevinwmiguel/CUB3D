@@ -51,13 +51,12 @@ static int	validate_and_start(t_cub3d *game)
 {
 	if (!validate_map(game, game->map))
 	{
-		printf("Invalid map\n");
+		printf("Invalid map!\n");
 		destroy_game(game, 1);
 		return (-1);
 	}
 	set_player_from_map(game);
 	calculate_map_dimensions(game);
-	ready_go(game);
 	return (0);
 }
 
@@ -68,5 +67,6 @@ int	init_cub3d(t_cub3d *game, char *path)
 		return (-1);
 	if (validate_and_start(game) == -1)
 		return (-1);
+	ready_go(game);
 	return (0);
 }

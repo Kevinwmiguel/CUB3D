@@ -34,7 +34,7 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 	int	line;
 	int	i;
 
-	line = 1;
+	line = 0;
 	while (map[line + 1])
 	{
 		i = 0;
@@ -56,6 +56,32 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 	return (1);
 }
 
+int	check_elements(char **map)
+{
+	int	i;
+	int	j;
+	int	player;
+
+	i = 0;
+	player = 0;
+	while (map[i])
+	{
+		j = 0;
+		while(map[i][j])
+		{
+			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E' || map[i][j] == 'W')
+				player++;
+			else if (map[i][j] != '1' && map[i][j] != '0')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	if (player != 1)
+		return (0);
+	return (1);
+}
+
 bool	validate_map(t_cub3d *game, char **map)
 {
 	int	last;
@@ -68,6 +94,8 @@ bool	validate_map(t_cub3d *game, char **map)
 	while (map[last])
 		last++;
 	if (!check_first_last_line(map[last - 1]))
+		return (0);
+	if (!check_elements(map))
 		return (0);
 	return (1);
 }
