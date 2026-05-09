@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/08 17:10:50 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:12:41 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int				init_cub3d(t_cub3d *game, char *path);
 int				hex_to_int(const char *hex);
 char			*get_ceiling(char *path);
 char			*get_floor(char *path);
-int				destroy_game(t_cub3d *game);
+int				destroy_game(t_cub3d *game, int flag);
 void			render_rays(t_cub3d *game);
 void			fcleaner(t_cub3d *game);
 bool			is_player_char(char c);

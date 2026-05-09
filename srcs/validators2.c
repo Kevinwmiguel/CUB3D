@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validators2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:32:04 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:32:24 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:34:41 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	check_first_last_line(char *line)
 	int	i;
 
 	i = 0;
+	if (!line)
+		return (0);
 	while (line[i])
 	{
 		if (line[i] != '1' && line[i] != ' '
@@ -44,7 +46,7 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 						map[line - 1], map[line + 1]))
 				{
 					printf("Some element is wrong!\n");
-					destroy_game(game);
+					destroy_game(game, 1);
 				}
 			}
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 12:28:30 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/09 08:28:23 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:11:59 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	load_resources(t_cub3d *game, char *path)
 	game->ceiling = get_ceiling(path);
 	parse_colors(game, path);
 	if (!game->floor || !game->ceiling)
-		return (printf("Erro: Cores não encontradas ou mal formatadas!\n"), -1);
+		return (printf("Error: Color not found or in the wrong format\n"), -1);
 	game->map = get_map(path);
 	return (0);
 }
@@ -52,7 +52,7 @@ static int	validate_and_start(t_cub3d *game)
 	if (!validate_map(game, game->map))
 	{
 		printf("Invalid map\n");
-		destroy_game(game);
+		destroy_game(game, 1);
 		return (-1);
 	}
 	set_player_from_map(game);
