@@ -55,7 +55,7 @@ void	fcleaner(t_cub3d *game)
 	free_textures_ceiling(game);
 }
 
-int	destroy_game(t_cub3d *game, int	flag)
+int	destroy_game(t_cub3d *game, int flag)
 {
 	int	i;
 
