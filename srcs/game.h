@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/09 11:12:41 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/14 17:40:34 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ typedef struct s_cub3d
 	float		fov;
 	t_hit		hit;
 	t_rayhit	ray_hit;
+	char		*line;
+	char		color_letter;
 }				t_cub3d;
 
 int				check_englobe(char *current, char *prev, char *next);
@@ -180,9 +182,11 @@ float			distance(float x, float y);
 bool			touch(float px, float py, t_cub3d *game);
 void			ready_go(t_cub3d *game);
 int				init_cub3d(t_cub3d *game, char *path);
+char			*fc_help(t_cub3d *game, char **temp, char *color, int fd);
 int				hex_to_int(const char *hex);
-char			*get_ceiling(char *path);
-char			*get_floor(char *path);
+char			*get_ceiling(t_cub3d *game, char *path);
+char			*build_color(char **temp2);
+char			*get_floor(t_cub3d *game, char *path);
 int				destroy_game(t_cub3d *game, int flag);
 void			render_rays(t_cub3d *game);
 void			fcleaner(t_cub3d *game);

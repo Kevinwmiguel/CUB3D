@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 12:28:30 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/09 11:11:59 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/14 17:40:29 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	init_values(t_cub3d *game)
 {
+	game->line = NULL;
 	game->mlx = NULL;
 	game->win = NULL;
 	game->img = NULL;
@@ -38,8 +39,8 @@ static void	init_values(t_cub3d *game)
 static int	load_resources(t_cub3d *game, char *path)
 {
 	get_textures(game, path);
-	game->floor = get_floor(path);
-	game->ceiling = get_ceiling(path);
+	game->floor = get_floor(game, path);
+	game->ceiling = get_ceiling(game, path);
 	parse_colors(game, path);
 	if (!game->floor || !game->ceiling)
 		return (printf("Error: Color not found or in the wrong format\n"), -1);

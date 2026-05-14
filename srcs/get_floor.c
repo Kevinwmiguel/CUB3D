@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_floor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:56:40 by kwillian          #+#    #+#             */
-/*   Updated: 2026/04/29 20:36:05 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/14 17:40:47 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,63 +22,9 @@ void	ft_free_split(char **s)
 	free(s);
 }
 
-static char	*build_floor_color(char **temp2)
-{
-	char	*r;
-	char	*g;
-	char	*b;
-	char	*color;
-	char	*tmp;
-
-	color = NULL;
-	if (temp2 && temp2[0] && temp2[1] && temp2[2])
-	{
-		r = ft_int_to_hex(ft_atoi(temp2[0]));
-		g = ft_int_to_hex(ft_atoi(temp2[1]));
-		b = ft_int_to_hex(ft_atoi(temp2[2]));
-		tmp = ft_strjoin(r, g);
-		color = ft_strjoin(tmp, b);
-		free(tmp);
-		free(r);
-		free(g);
-		free(b);
-	}
-	return (color);
-}
-
-static char	*floor_helper(char *line, char **temp, char *color, int fd)
-{
-	char	**rgb_split;
-
-	while (line)
-	{
-		if (line[0] == 'F' && line[1] == ' ')
-		{
-			temp = ft_split(line, ' ');
-			rgb_split = ft_split(temp[1], ',');
-			color = build_floor_color(rgb_split);
-			ft_free_split(rgb_split);
-			ft_free_split(temp);
-			free(line);
-			break ;
-		}
-		free(line);
-		line = get_next_line(fd);
-	}
-	line = get_next_line(fd);
-	while (line)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	return (color);
-}
-
-char	*get_floor(char *path)
+char	*get_floor(t_cub3d *game,char *path)
 {
 	int		fd;
-	char	*line;
 	char	*color;
 	char	**temp;
 
@@ -86,8 +32,9 @@ char	*get_floor(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	line = get_next_line(fd);
+	game->line = get_next_line(fd);
 	temp = NULL;
-	color = floor_helper(line, temp, color, fd);
+	game->color_letter = 'F';
+	color = fc_help(game, temp, color, fd);
 	return (color);
 }
