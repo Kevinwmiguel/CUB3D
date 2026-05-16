@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 17:56:40 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/14 17:40:47 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/16 01:35:37 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_free_split(char **s)
 	free(s);
 }
 
-char	*get_floor(t_cub3d *game,char *path)
+char	*get_floor(t_cub3d *game, char *path)
 {
 	int		fd;
 	char	*color;

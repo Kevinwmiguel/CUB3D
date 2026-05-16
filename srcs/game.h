@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/14 17:40:34 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/16 01:30:54 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ char			*get_floor(t_cub3d *game, char *path);
 int				destroy_game(t_cub3d *game, int flag);
 void			render_rays(t_cub3d *game);
 void			fcleaner(t_cub3d *game);
+void			free_textures_ceiling(t_cub3d *game);
 bool			is_player_char(char c);
 bool			is_map_char(char c);
 bool			validate_map(t_cub3d *game, char **map);

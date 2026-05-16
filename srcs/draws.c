@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draws.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/05 20:21:14 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/16 01:26:49 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,28 @@ void	clean_line(int count, char *line, int fd)
 	}
 }
 
-static void	extract_helper(t_cub3d *game, char *line)
+void	extract_helper(t_cub3d *game, char *line)
 {
+	int	i;
+
+	i = 0;
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		game->tex[0].img_path = extract_path(line);
-	else if (ft_strncmp(line, "SO ", 3) == 0)
+	else
+	{
+		if (game->map)
+		{
+			while (game->map[i])
+				free(game->map[i++]);
+			free(game->map);
+		}
+		exit(1);
+	}
+	if (ft_strncmp(line, "SO ", 3) == 0)
 		game->tex[1].img_path = extract_path(line);
-	else if (ft_strncmp(line, "WE ", 3) == 0)
+	if (ft_strncmp(line, "WE ", 3) == 0)
 		game->tex[2].img_path = extract_path(line);
-	else if (ft_strncmp(line, "EA ", 3) == 0)
+	if (ft_strncmp(line, "EA ", 3) == 0)
 		game->tex[3].img_path = extract_path(line);
 }
 
