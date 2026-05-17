@@ -6,28 +6,11 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/17 12:21:27 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/17 23:08:12 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-void	cast_rays(t_cub3d *game)
-{
-	int		i;
-	float	ray_angle;
-	float	step;
-
-	step = game->fov / WIDTH;
-	ray_angle = game->player.angle - (game->fov / 2);
-	i = 0;
-	while (i < WIDTH)
-	{
-		draw_line(game, ray_angle, i);
-		ray_angle += step;
-		i++;
-	}
-}
 
 char	*extract_path(char *line)
 {
@@ -59,12 +42,9 @@ void	clean_line(int count, char *line, int fd)
 
 int	is_texture_line(char *line)
 {
-	return (!ft_strncmp(line, "NO ", 3)
-		|| !ft_strncmp(line, "SO ", 3)
-		|| !ft_strncmp(line, "WE ", 3)
-		|| !ft_strncmp(line, "EA ", 3));
+	return (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
+		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3));
 }
-
 
 int	extract_helper(t_cub3d *game, char *line)
 {
@@ -88,7 +68,7 @@ void	get_textures(t_cub3d *game, char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return;
+		return ;
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -104,7 +84,7 @@ void	get_textures(t_cub3d *game, char *path)
 		free(line);
 		if (game->tex[0].img_path && game->tex[1].img_path
 			&& game->tex[2].img_path && game->tex[3].img_path)
-			break;
+			break ;
 		line = get_next_line(fd);
 	}
 	close(fd);

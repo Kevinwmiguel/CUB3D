@@ -1,6 +1,6 @@
-F 100,4,222
-C 102,0,222
-
+F 100,4,22
+C 102,0,1
+ 
 NO assets/north.xpm
 SO assets/south.xpm
 WE assets/west.xpm

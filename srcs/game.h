@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/16 01:30:54 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/17 22:44:18 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,8 @@ typedef struct s_cub3d
 	char		color_letter;
 }				t_cub3d;
 
+int				check_rgb_format(char *line);
+void			clean_newline(char *str);
 int				check_englobe(char *current, char *prev, char *next);
 float			distance(float x, float y);
 bool			touch(float px, float py, t_cub3d *game);
