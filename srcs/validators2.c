@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validators2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:32:04 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:32:24 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:34:41 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	check_first_last_line(char *line)
 	int	i;
 
 	i = 0;
+	if (!line)
+		return (0);
 	while (line[i])
 	{
 		if (line[i] != '1' && line[i] != ' '
@@ -32,7 +34,7 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 	int	line;
 	int	i;
 
-	line = 1;
+	line = 0;
 	while (map[line + 1])
 	{
 		i = 0;
@@ -44,7 +46,7 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 						map[line - 1], map[line + 1]))
 				{
 					printf("Some element is wrong!\n");
-					destroy_game(game);
+					destroy_game(game, 1);
 				}
 			}
 			i++;
@@ -54,11 +56,40 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 	return (1);
 }
 
+int	check_elements(char **map)
+{
+	int	i;
+	int	j;
+	int	player;
+
+	i = 0;
+	player = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'N' || map[i][j] == 'S'
+				|| map[i][j] == 'E' || map[i][j] == 'W')
+				player++;
+			else if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != ' ')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	if (player != 1)
+		return (0);
+	return (1);
+}
+
 bool	validate_map(t_cub3d *game, char **map)
 {
 	int	last;
 
 	if (!check_first_last_line(map[0]))
+		return (0);
+	if (!check_elements(map))
 		return (0);
 	if (!check_middle_lines(game, map))
 		return (0);

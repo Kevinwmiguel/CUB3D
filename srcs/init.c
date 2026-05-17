@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 12:28:30 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/24 21:41:18 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/14 17:40:29 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 static void	init_values(t_cub3d *game)
 {
+	game->line = NULL;
+	game->mlx = NULL;
+	game->win = NULL;
+	game->img = NULL;
+	game->map = NULL;
 	init_player(&game->player);
 	game->tab = NULL;
 	game->fov = (PI / 3);
@@ -31,31 +36,38 @@ static void	init_values(t_cub3d *game)
 	game->tex[3].img_path = NULL;
 }
 
-static void	load_resources(t_cub3d *game, char *path)
+static int	load_resources(t_cub3d *game, char *path)
 {
 	get_textures(game, path);
-	game->floor = get_floor(path);
-	game->ceiling = get_ceiling(path);
+	game->floor = get_floor(game, path);
+	game->ceiling = get_ceiling(game, path);
 	parse_colors(game, path);
 	if (!game->floor || !game->ceiling)
-		printf("Erro: Cores não encontradas ou mal formatadas!\n");
+		return (printf("Error: Color not found or in the wrong format\n"), -1);
 	game->map = get_map(path);
+	return (0);
 }
 
-static void	validate_and_start(t_cub3d *game)
+static int	validate_and_start(t_cub3d *game)
 {
 	if (!validate_map(game, game->map))
 	{
-		printf("Invalid map\n");
-		destroy_game(game);
+		printf("Invalid map!\n");
+		destroy_game(game, 1);
+		return (-1);
 	}
 	set_player_from_map(game);
-	ready_go(game);
+	calculate_map_dimensions(game);
+	return (0);
 }
 
-void	init_cub3d(t_cub3d *game, char *path)
+int	init_cub3d(t_cub3d *game, char *path)
 {
 	init_values(game);
-	load_resources(game, path);
-	validate_and_start(game);
+	if (load_resources(game, path) == -1)
+		return (-1);
+	if (validate_and_start(game) == -1)
+		return (-1);
+	ready_go(game);
+	return (0);
 }

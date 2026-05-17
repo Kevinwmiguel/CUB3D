@@ -1,13 +1,14 @@
 VALGRIND = valgrind --leak-check=full --show-leak-kinds=definite \
 --track-origins=yes --suppressions=mlx.supp
 
-NAME = game
+NAME = cub3D
 CC = cc
 
 SRC = srcs/main.c srcs/player.c srcs/map.c srcs/draws.c srcs/movments.c srcs/raycasting.c srcs/minimap.c\
       get_next_line/get_next_line.c get_next_line/get_next_line_utils.c srcs/parse_colors.c srcs/validators.c\
 	  srcs/player_val.c srcs/cleaners.c srcs/get_floor.c srcs/get_ceiling.c srcs/transform.c srcs/draws2.c\
-	  srcs/draws3.c srcs/painting.c	srcs/init.c srcs/validators2.c srcs/utils.c srcs/init2.c srcs/draws4.c
+	  srcs/draws3.c srcs/painting.c	srcs/init.c srcs/validators2.c srcs/utils.c srcs/init2.c srcs/dda.c\
+	  srcs/dda2.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -50,5 +51,5 @@ fclean: clean
 re: fclean all
 
 vg: all
-	$(VALGRIND) ./$(NAME) assets/map_kevin.cub
+	$(VALGRIND) --leak-check=full --suppressions=mlx.supp ./$(NAME) assets/map_kevin.cub
 

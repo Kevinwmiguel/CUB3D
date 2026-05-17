@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 16:36:45 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/22 19:28:57 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:12:30 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ int	key_press(int keycode, t_cub3d *game)
 	if (keycode == RIGHT)
 		game->player.right_rotate = true;
 	if (keycode == ESC)
-	{
-		exit_clean(game);
-	}
+		destroy_game(game, 0);
 	return (0);
 }
 

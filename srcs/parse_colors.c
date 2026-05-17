@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 20:52:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/01/31 18:44:01 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/09 10:25:48 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ char	*process_rgb_line(char *line, t_cub3d *game)
 	return (game->final_hex);
 }
 
+static void	process_line(t_cub3d *game, char *line)
+{
+	if (line[0] == 'F' && line[1] == ' ')
+	{
+		if (game->floor)
+			free(game->floor);
+		game->floor = process_rgb_line(line, game);
+	}
+	else if (line[0] == 'C' && line[1] == ' ')
+	{
+		if (game->ceiling)
+			free(game->ceiling);
+		game->ceiling = process_rgb_line(line, game);
+	}
+}
+
 void	parse_colors(t_cub3d *game, char *path)
 {
 	int		fd;
@@ -48,10 +64,7 @@ void	parse_colors(t_cub3d *game, char *path)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (line[0] == 'F' && line[1] == ' ')
-			game->floor = process_rgb_line(line, game);
-		else if (line[0] == 'C' && line[1] == ' ')
-			game->ceiling = process_rgb_line(line, game);
+		process_line(game, line);
 		free(line);
 		if (game->floor && game->ceiling)
 			break ;

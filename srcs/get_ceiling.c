@@ -6,18 +6,19 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:04:50 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/01 18:32:20 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/14 17:39:14 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static char	*build_ceiling_color(char **temp2)
+char	*build_color(char **temp2)
 {
 	char	*r;
 	char	*g;
 	char	*b;
 	char	*color;
+	char	*tmp;
 
 	color = NULL;
 	if (temp2 && temp2[0] && temp2[1] && temp2[2])
@@ -25,8 +26,9 @@ static char	*build_ceiling_color(char **temp2)
 		r = ft_int_to_hex(ft_atoi(temp2[0]));
 		g = ft_int_to_hex(ft_atoi(temp2[1]));
 		b = ft_int_to_hex(ft_atoi(temp2[2]));
-		color = ft_strjoin(r, g);
-		color = ft_strjoin(color, b);
+		tmp = ft_strjoin(r, g);
+		color = ft_strjoin(tmp, b);
+		free(tmp);
 		free(r);
 		free(g);
 		free(b);
@@ -34,35 +36,38 @@ static char	*build_ceiling_color(char **temp2)
 	return (color);
 }
 
-static char	*ceiling_helper(char *line, char **temp, char *color, int fd)
+char	*fc_help(t_cub3d *game, char **temp, char *color, int fd)
 {
-	while (line)
+	char	**rgb_split;
+
+	while (game->line)
 	{
-		if (line[0] == 'C' && line[1] == ' ')
+		if (game->line[0] == game->color_letter && game->line[1] == ' ')
 		{
-			temp = ft_split(line, ' ');
-			color = build_ceiling_color(ft_split(temp[1], ','));
+			temp = ft_split(game->line, ' ');
+			rgb_split = ft_split(temp[1], ',');
+			color = build_color(rgb_split);
+			ft_free_split(rgb_split);
 			ft_free_split(temp);
-			free(line);
+			free(game->line);
 			break ;
 		}
-		free(line);
-		line = get_next_line(fd);
+		free(game->line);
+		game->line = get_next_line(fd);
 	}
-	line = get_next_line(fd);
-	while (line)
+	game->line = get_next_line(fd);
+	while (game->line)
 	{
-		free(line);
-		line = get_next_line(fd);
+		free(game->line);
+		game->line = get_next_line(fd);
 	}
 	close(fd);
 	return (color);
 }
 
-char	*get_ceiling(char *path)
+char	*get_ceiling(t_cub3d *game, char *path)
 {
 	int		fd;
-	char	*line;
 	char	*color;
 	char	**temp;
 
@@ -70,8 +75,9 @@ char	*get_ceiling(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	line = get_next_line(fd);
+	game->line = get_next_line(fd);
 	temp = NULL;
-	color = ceiling_helper(line, temp, color, fd);
+	game->color_letter = 'C';
+	color = fc_help(game, temp, color, fd);
 	return (color);
 }

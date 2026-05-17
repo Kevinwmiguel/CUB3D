@@ -6,7 +6,7 @@
 /*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 18:09:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/24 21:43:07 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/05 21:11:31 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,16 @@ static void	draw_wall_column(t_cub3d *g, t_wcol *wc)
 	}
 }
 
-void	draw_line(t_player *p, t_cub3d *game, float angle, int col)
+void	draw_line(t_cub3d *game, float angle, int col)
 {
-	float	pos[2];
 	float	dist;
 	int		start;
 	int		end;
 	t_wcol	wc;
 
-	pos[0] = p->x;
-	pos[1] = p->y;
-	trace_ray(game, angle, pos);
-	game->x1 = p->x;
-	game->y1 = p->y;
-	game->x2 = pos[0];
-	game->y2 = pos[1];
-	dist = fixed_dist(game);
+	dist = trace_ray_dda(game, angle);
+	if (dist < 0)
+		return ;
 	get_wall_limits(dist, &start, &end);
 	wc.col = col;
 	wc.start = start;

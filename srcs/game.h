@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/24 21:30:58 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/16 01:30:54 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,28 @@ typedef struct s_wcol
 	float	dist;
 }			t_wcol;
 
+typedef struct s_rayhit
+{
+	float	prev_x;
+	float	prev_y;
+	float	step_x;
+	float	step_y;
+}				t_rayhit;
+
+typedef struct s_dda
+{
+	float	side_dist_x;
+	float	side_dist_y;
+	float	delta_dist_x;
+	float	delta_dist_y;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	int		side;
+	float	perp_wall_dist;
+}			t_dda;
+
 typedef struct s_cub3d
 {
 	void		*mlx;
@@ -150,21 +172,25 @@ typedef struct s_cub3d
 	float		y2;
 	float		fov;
 	t_hit		hit;
+	t_rayhit	ray_hit;
+	char		*line;
+	char		color_letter;
 }				t_cub3d;
 
 int				check_englobe(char *current, char *prev, char *next);
 float			distance(float x, float y);
 bool			touch(float px, float py, t_cub3d *game);
-float			fixed_dist(t_cub3d *game);
 void			ready_go(t_cub3d *game);
-void			init_cub3d(t_cub3d *game, char *path);
-float			fixed_dist(t_cub3d *game);
+int				init_cub3d(t_cub3d *game, char *path);
+char			*fc_help(t_cub3d *game, char **temp, char *color, int fd);
 int				hex_to_int(const char *hex);
-char			*get_ceiling(char *path);
-char			*get_floor(char *path);
-int				destroy_game(t_cub3d *game);
+char			*get_ceiling(t_cub3d *game, char *path);
+char			*build_color(char **temp2);
+char			*get_floor(t_cub3d *game, char *path);
+int				destroy_game(t_cub3d *game, int flag);
 void			render_rays(t_cub3d *game);
 void			fcleaner(t_cub3d *game);
+void			free_textures_ceiling(t_cub3d *game);
 bool			is_player_char(char c);
 bool			is_map_char(char c);
 bool			validate_map(t_cub3d *game, char **map);
@@ -177,11 +203,10 @@ void			draw_minimap_border(t_cub3d *game);
 void			cast_rays_2d(t_cub3d *game);
 void			cast_rays_3d(t_cub3d *game);
 void			draw_player_minimap(t_cub3d *game);
-int				get_map_height(char **map);
 void			draw_minimap(t_cub3d *game);
 void			cast_rays(t_cub3d *game);
 void			set_player_from_map(t_cub3d *game);
-void			draw_line(t_player *p, t_cub3d *g, float angle, int col);
+void			draw_line(t_cub3d *g, float angle, int col);
 bool			touch_wall(float px, float py, t_cub3d *game);
 void			ft_free_split(char **s);
 void			parse_colors(t_cub3d *game, char *path);
@@ -201,9 +226,11 @@ void			draw_minimap_border(t_cub3d *game);
 void			exit_clean(t_cub3d *game);
 void			clear_image(t_cub3d *game);
 void			put_pixel(int x, int y, int color, t_cub3d *game);
-void			paint_floor_and_ceiling(t_cub3d *game);
-int				draw_loop(t_cub3d *game);
 void			draw_player(t_cub3d *game);
-void			trace_ray(t_cub3d *g, float angle, float *pos);
+int				check_map_name(char *av);
+float			trace_ray_dda(t_cub3d *game, float angle);
+int				perform_dda(t_dda *dda, t_cub3d *game);
+void			init_dda(t_dda *dda, t_player *player, float ray_angle);
+void			calculate_map_dimensions(t_cub3d *game);
 
 #endif

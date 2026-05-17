@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaners.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 12:12:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:32:31 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:11:44 by made-jes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	fcleaner(t_cub3d *game)
 	free_textures_ceiling(game);
 }
 
-int	destroy_game(t_cub3d *game)
+int	destroy_game(t_cub3d *game, int flag)
 {
 	int	i;
 
@@ -70,15 +70,17 @@ int	destroy_game(t_cub3d *game)
 	}
 	i = 0;
 	free_textures_ceiling(game);
-	if (game->img)
+	if (game->mlx && game->img)
 		mlx_destroy_image(game->mlx, game->img);
-	if (game->win)
+	if (game->mlx && game->win)
 		mlx_destroy_window(game->mlx, game->win);
 	if (game->mlx)
 	{
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
+	if (flag)
+		exit(1);
 	exit(0);
 }
 

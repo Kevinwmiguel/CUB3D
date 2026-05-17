@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draws.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/22 19:35:35 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/17 03:31:14 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cast_rays(t_cub3d *game)
 	i = 0;
 	while (i < WIDTH)
 	{
-		draw_line(&game->player, game, ray_angle, i);
+		draw_line(game, ray_angle, i);
 		ray_angle += step;
 		i++;
 	}
@@ -57,7 +57,16 @@ void	clean_line(int count, char *line, int fd)
 	}
 }
 
-static void	extract_helper(t_cub3d *game, char *line)
+int	is_texture_line(char *line)
+{
+	return (!ft_strncmp(line, "NO ", 3)
+		|| !ft_strncmp(line, "SO ", 3)
+		|| !ft_strncmp(line, "WE ", 3)
+		|| !ft_strncmp(line, "EA ", 3));
+}
+
+
+int	extract_helper(t_cub3d *game, char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		game->tex[0].img_path = extract_path(line);
@@ -67,29 +76,42 @@ static void	extract_helper(t_cub3d *game, char *line)
 		game->tex[2].img_path = extract_path(line);
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 		game->tex[3].img_path = extract_path(line);
+	else
+		return (0);
+
+	return (1);
 }
 
 void	get_textures(t_cub3d *game, char *path)
 {
 	int		fd;
 	char	*line;
-	int		j;
 
-	j = 0;
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		return ;
+		return;
+
 	line = get_next_line(fd);
 	while (line)
 	{
-		j++;
-		extract_helper(game, line);
+		if (is_texture_line(line))
+		{
+			if (!extract_helper(game, line)) // 👈 agora retorna erro/sucesso
+			{
+				free(line);
+				close(fd);
+				destroy_game(game, 1);
+			}
+		}
+
 		free(line);
+
 		if (game->tex[0].img_path && game->tex[1].img_path
 			&& game->tex[2].img_path && game->tex[3].img_path)
-			break ;
+			break;
+
 		line = get_next_line(fd);
 	}
-	clean_line(j, line, fd);
+
 	close(fd);
 }
