@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 01:25:27 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/17 03:31:14 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/17 12:21:27 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	extract_helper(t_cub3d *game, char *line)
 		game->tex[3].img_path = extract_path(line);
 	else
 		return (0);
-
 	return (1);
 }
 
@@ -90,28 +89,23 @@ void	get_textures(t_cub3d *game, char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		return;
-
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (is_texture_line(line))
 		{
-			if (!extract_helper(game, line)) // 👈 agora retorna erro/sucesso
+			if (!extract_helper(game, line))
 			{
 				free(line);
 				close(fd);
 				destroy_game(game, 1);
 			}
 		}
-
 		free(line);
-
 		if (game->tex[0].img_path && game->tex[1].img_path
 			&& game->tex[2].img_path && game->tex[3].img_path)
 			break;
-
 		line = get_next_line(fd);
 	}
-
 	close(fd);
 }
