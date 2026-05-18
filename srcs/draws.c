@@ -76,9 +76,6 @@ void	get_textures(t_cub3d *game, char *path)
 		if (!process_texture_line(game, line, fd))
 			return ;
 		free(line);
-		if (game->tex[0].img_path && game->tex[1].img_path
-			&& game->tex[2].img_path && game->tex[3].img_path)
-			break ;
 		line = get_next_line(fd);
 	}
 	close(fd);

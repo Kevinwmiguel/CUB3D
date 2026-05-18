@@ -35,7 +35,7 @@ do_tests()
 		if [ -z "$hide" ] ; then
 			$val ../cub3D "${dir}${test}${n}.cub"
 		else
-			$val ./cub3D "${dir}${test}${n}.cub" 2>/dev/null
+			$val ../cub3D "${dir}${test}${n}.cub" 2>/dev/null
 		fi
 		n=$((n+1))
 	done
