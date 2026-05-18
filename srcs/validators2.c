@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validators2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:32:04 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/09 11:34:41 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:26:55 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,20 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 	int	line;
 	int	i;
 
-	line = 0;
+	line = 1;
 	while (map[line + 1])
 	{
 		i = 0;
 		while (map[line][i])
 		{
-			if (map[line][i] == '0')
+			if (map[line][i] == '0' || map[line][i] == 'N'
+				|| map[line][i] == 'S' || map[line][i] == 'E'
+				|| map[line][i] == 'W')
 			{
 				if (!check_englobe(map[line],
 						map[line - 1], map[line + 1]))
 				{
-					printf("Some element is wrong!\n");
+					printf("Map not closed!\n");
 					destroy_game(game, 1);
 				}
 			}
