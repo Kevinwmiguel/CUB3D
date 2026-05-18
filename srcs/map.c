@@ -53,9 +53,13 @@ char	**get_map(char *path)
 	int		fd;
 	char	**map;
 	int		i;
+	int		size;
 
 	i = 0;
-	map = malloc(sizeof(char *) * 100);
+	size = count_lines(path);
+	map = malloc(sizeof(char *) * (size + 1));
+	if (!map)
+		return (NULL);
 	fd = open(path, O_RDONLY);
 	i = map_init(map, fd);
 	map[i] = NULL;

@@ -12,6 +12,32 @@
 
 #include "game.h"
 
+static int	check_map_gaps(char **map)
+{
+	int	i;
+	int	in_map;
+
+	i = 0;
+	in_map = 0;
+	while (map[i])
+	{
+		if (is_empty_line(map[i]))
+		{
+			if (in_map)
+			{
+				while (map[i] && is_empty_line(map[i]))
+					i++;
+				if (map[i])
+					return (0);
+			}
+		}
+		else
+			in_map = 1;
+		i++;
+	}
+	return (1);
+}
+
 static int	check_first_last_line(char *line)
 {
 	int	i;
@@ -89,6 +115,8 @@ bool	validate_map(t_cub3d *game, char **map)
 {
 	int	last;
 
+	if (!check_map_gaps(map))
+		return (0);
 	if (!check_first_last_line(map[0]))
 		return (0);
 	if (!check_elements(map))

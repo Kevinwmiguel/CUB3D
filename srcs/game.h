@@ -184,7 +184,6 @@ int				check_rgb_format(char *line);
 void			clean_newline(char *str);
 int				check_englobe(char *current, char *prev, char *next);
 float			distance(float x, float y);
-bool			touch(float px, float py, t_cub3d *game);
 void			ready_go(t_cub3d *game);
 int				init_cub3d(t_cub3d *game, char *path);
 char			*fc_help(t_cub3d *game, char **temp, char *color, int fd);
@@ -247,5 +246,6 @@ int				is_texture_identifier(char *line);
 int				is_texture_line(char *line);
 int				extract_helper(t_cub3d *game, char *line);
 char			*extract_path(char *line);
+int				count_lines(char *path);
 
 #endif
