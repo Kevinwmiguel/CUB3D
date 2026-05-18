@@ -12,55 +12,6 @@
 
 #include "game.h"
 
-static int	handle_color_line(char *line, int *f, int *c)
-{
-	if (line[0] == 'F' && line[1] == ' ')
-	{
-		if (!check_rgb_format(line))
-			return (0);
-		*f = 1;
-	}
-	else if (line[0] == 'C' && line[1] == ' ')
-	{
-		if (!check_rgb_format(line))
-			return (0);
-		*c = 1;
-	}
-	return (1);
-}
-
-static int	process_colors_loop(int fd, int *f, int *c)
-{
-	char	*line;
-
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (!handle_color_line(line, f, c))
-			return (free(line), 0);
-		free(line);
-		line = get_next_line(fd);
-	}
-	return (1);
-}
-
-static int	precheck_colors(char *path)
-{
-	int	fd;
-	int	f;
-	int	c;
-
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (0);
-	f = 0;
-	c = 0;
-	if (!process_colors_loop(fd, &f, &c))
-		return (close(fd), 0);
-	close(fd);
-	return (f && c);
-}
-
 int	main(int argc, char **argv)
 {
 	t_cub3d	game;

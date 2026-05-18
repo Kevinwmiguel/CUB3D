@@ -40,24 +40,25 @@ void	clean_line(int count, char *line, int fd)
 	}
 }
 
-int	is_texture_line(char *line)
+static int	process_texture_line(t_cub3d *game, char *line, int fd)
 {
-	return (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
-		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3));
-}
-
-int	extract_helper(t_cub3d *game, char *line)
-{
-	if (ft_strncmp(line, "NO ", 3) == 0)
-		game->tex[0].img_path = extract_path(line);
-	else if (ft_strncmp(line, "SO ", 3) == 0)
-		game->tex[1].img_path = extract_path(line);
-	else if (ft_strncmp(line, "WE ", 3) == 0)
-		game->tex[2].img_path = extract_path(line);
-	else if (ft_strncmp(line, "EA ", 3) == 0)
-		game->tex[3].img_path = extract_path(line);
-	else
+	if (is_texture_identifier(line) && !is_texture_line(line))
+	{
+		printf("Invalid texture line\n");
+		free(line);
+		close(fd);
+		destroy_game(game, 0);
 		return (0);
+	}
+	if (is_texture_line(line))
+	{
+		if (!extract_helper(game, line))
+		{
+			free(line);
+			close(fd);
+			destroy_game(game, 1);
+		}
+	}
 	return (1);
 }
 
@@ -72,15 +73,8 @@ void	get_textures(t_cub3d *game, char *path)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (is_texture_line(line))
-		{
-			if (!extract_helper(game, line))
-			{
-				free(line);
-				close(fd);
-				destroy_game(game, 1);
-			}
-		}
+		if (!process_texture_line(game, line, fd))
+			return ;
 		free(line);
 		if (game->tex[0].img_path && game->tex[1].img_path
 			&& game->tex[2].img_path && game->tex[3].img_path)

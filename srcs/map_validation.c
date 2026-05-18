@@ -75,7 +75,7 @@ int	check_rgb_format(char *line)
 	if (!line || (line[0] != 'F' && line[0] != 'C') || line[1] != ' ')
 		return (0);
 	tmp = ft_split(line, ' ');
-	if (!tmp || !tmp[1])
+	if (!tmp || !tmp[1] || tmp[2])
 		return (ft_free_split(tmp), 0);
 	clean_newline(tmp[1]);
 	rgb = ft_split(tmp[1], ',');

@@ -52,3 +52,14 @@ int	check_map_name(char *av)
 		return (1);
 	return (0);
 }
+
+int	is_map_start(char *line)
+{
+	return (line[0] == '1' || line[0] == ' ');
+}
+
+int	is_texture_or_color(char *line)
+{
+	return (line[0] == 'N' || line[0] == 'S' || line[0] == 'W'
+		|| line[0] == 'E' || line[0] == 'F' || line[0] == 'C');
+}

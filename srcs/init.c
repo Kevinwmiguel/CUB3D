@@ -34,6 +34,8 @@ static void	init_values(t_cub3d *game)
 	game->tex[1].img_path = NULL;
 	game->tex[2].img_path = NULL;
 	game->tex[3].img_path = NULL;
+	game->floor = NULL;
+	game->ceiling = NULL;
 }
 
 static int	load_resources(t_cub3d *game, char *path)

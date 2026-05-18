@@ -40,7 +40,6 @@ char	*process_rgb_line(char *line, t_cub3d *game)
 		ft_free_split(game->rgb);
 		return (NULL);
 	}
-	printf("%s\n", game->rgb[0]);
 	if (ft_isdigit2(game->rgb[0]))
 		game->r_hex = ft_int_to_hex(ft_atoi(game->rgb[0]));
 	else

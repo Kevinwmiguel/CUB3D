@@ -234,5 +234,15 @@ float			trace_ray_dda(t_cub3d *game, float angle);
 int				perform_dda(t_dda *dda, t_cub3d *game);
 void			init_dda(t_dda *dda, t_player *player, float ray_angle);
 void			calculate_map_dimensions(t_cub3d *game);
+int				is_map_start(char *line);
+int				is_texture_or_color(char *line);
+int				is_empty_line(char *line);
+int				handle_color_line(char *line, int *f, int *c);
+int				validate_config_line(char *line, int *f, int *c);
+int				precheck_colors(char *path);
+int				is_texture_identifier(char *line);
+int				is_texture_line(char *line);
+int				extract_helper(t_cub3d *game, char *line);
+char			*extract_path(char *line);
 
 #endif
