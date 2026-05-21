@@ -21,7 +21,7 @@ static void	load_textures(t_cub3d *game)
 	{
 		if (!game->tex[i].img_path)
 		{
-			printf("Error: missing texture path\n");
+			printf("Error\nMissing texture path\n");
 			destroy_game(game, 1);
 		}
 		game->tex[i].img = mlx_xpm_file_to_image(game->mlx,
@@ -29,7 +29,7 @@ static void	load_textures(t_cub3d *game)
 				&game->tex[i].height);
 		if (!game->tex[i].img)
 		{
-			printf("Error: could not load texture: %s\n",
+			printf("Error\nCould not load texture: %s\n",
 				game->tex[i].img_path);
 			destroy_game(game, 1);
 		}

@@ -44,7 +44,7 @@ static int	process_texture_line(t_cub3d *game, char *line, int fd)
 {
 	if (is_texture_identifier(line) && !is_texture_line(line))
 	{
-		printf("Invalid texture line\n");
+		printf("Error\nInvalid texture line\n");
 		free(line);
 		close(fd);
 		destroy_game(game, 0);

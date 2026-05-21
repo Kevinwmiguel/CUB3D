@@ -21,15 +21,20 @@ LIBFT_LIB = $(LIBFT_DIR)/libft.a
 LFLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm
 CFLAGS = -Wall -Wextra -Werror -g
 
-all: $(LIBFT_LIB) $(NAME)
+all: $(MLX_LIB) $(LIBFT_LIB) $(NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null
 
 $(NAME): $(OBJ)
 	@echo "Compiling game..."
-	@$(CC) $(OBJ) $(LIBFT_LIB) $(LFLAGS) -o $(NAME) > /dev/null
+	@$(CC) $(OBJ) $(LIBFT_LIB) $(MLX_LIB) $(LFLAGS) -o $(NAME) > /dev/null
 	@echo "Game is ready!"
+
+$(MLX_LIB):
+	@echo "Compiling mlx..."
+	@make -C $(MLX_DIR) -f Makefile.mk > /dev/null
+	@echo "MLX is ready!"
 
 $(LIBFT_LIB):
 	@echo "Compiling libft..."
@@ -40,12 +45,14 @@ clean:
 	@echo "Cleaning objects..."
 	@rm -f $(OBJ) > /dev/null
 	@make -C $(LIBFT_DIR) clean > /dev/null
+	@make -C $(MLX_DIR) -f Makefile.mk clean /dev/null
 	@echo "Cleaned objects!"
 
 fclean: clean
 	@echo "Cleaning project..."
 	@rm -f $(NAME) > /dev/null
 	@make -C $(LIBFT_DIR) fclean > /dev/null
+	@make -C $(MLX_DIR) -f Makefile.mk clean > /dev/null
 	@echo "All cleaned!"
 
 re: fclean all
