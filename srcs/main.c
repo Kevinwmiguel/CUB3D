@@ -19,9 +19,9 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		if (check_map_name(argv[1]))
-			return (ft_putstr_fd("Invalid map name\n", 2), 1);
+			return (ft_putstr_fd("Error\nInvalid map name\n", 2), 1);
 		if (!precheck_colors(argv[1]))
-			return (ft_putstr_fd("Error: invalid RGB format\n", 2), 1);
+			return (ft_putstr_fd("Error\nInvalid RGB format\n", 2), 1);
 		if (init_cub3d(&game, argv[1]) == -1)
 			return (destroy_game(&game, 1), 1);
 		mlx_hook(game.win, 2, 1L << 0, key_press, &game);
@@ -30,6 +30,6 @@ int	main(int argc, char **argv)
 		mlx_loop_hook(game.mlx, draw_loop, &game);
 		mlx_loop(game.mlx);
 	}
-	ft_putstr_fd("Wrong number of arguments\n", 2);
+	ft_putstr_fd("Error\nWrong number of arguments\n", 2);
 	return (1);
 }
