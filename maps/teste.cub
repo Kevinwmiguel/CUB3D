@@ -1,6 +1,5 @@
-F 220,100,0
-C 225,30,0
-
+F 200,50,10
+C 157,25,98
 NO assets/north.xpm
 WE assets/west.xpm
 EA assets/east.xpm
