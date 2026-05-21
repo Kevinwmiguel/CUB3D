@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 21:08:01 by made-jes          #+#    #+#             */
-/*   Updated: 2026/05/09 11:24:23 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/17 03:25:35 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ static void	load_textures(t_cub3d *game)
 	i = 0;
 	while (i < 4)
 	{
+		if (!game->tex[i].img_path)
+		{
+			printf("Error: missing texture path\n");
+			destroy_game(game, 1);
+		}
 		game->tex[i].img = mlx_xpm_file_to_image(game->mlx,
 				game->tex[i].img_path, &game->tex[i].width,
 				&game->tex[i].height);

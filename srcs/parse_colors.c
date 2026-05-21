@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 20:52:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/09 10:25:48 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/17 19:42:54 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+int	ft_isdigit2(char *c)
+{
+	int	i;
+
+	i = 0;
+	while (c[i] != '\0')
+	{
+		if (c[i] >= 48 && c[i] <= 57)
+		{
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 char	*process_rgb_line(char *line, t_cub3d *game)
 {
@@ -24,7 +40,10 @@ char	*process_rgb_line(char *line, t_cub3d *game)
 		ft_free_split(game->rgb);
 		return (NULL);
 	}
-	game->r_hex = ft_int_to_hex(ft_atoi(game->rgb[0]));
+	if (ft_isdigit2(game->rgb[0]))
+		game->r_hex = ft_int_to_hex(ft_atoi(game->rgb[0]));
+	else
+		exit(1);
 	game->g_hex = ft_int_to_hex(ft_atoi(game->rgb[1]));
 	game->b_hex = ft_int_to_hex(ft_atoi(game->rgb[2]));
 	ft_free_split(game->rgb);

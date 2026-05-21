@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/16 01:30:54 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:23:36 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,13 @@ typedef struct s_cub3d
 	char		color_letter;
 }				t_cub3d;
 
+int				is_valid_wall(char c);
+int				is_walkable(char c);
+int				valid_elements(char c);
+int				check_rgb_format(char *line);
+void			clean_newline(char *str);
 int				check_englobe(char *current, char *prev, char *next);
 float			distance(float x, float y);
-bool			touch(float px, float py, t_cub3d *game);
 void			ready_go(t_cub3d *game);
 int				init_cub3d(t_cub3d *game, char *path);
 char			*fc_help(t_cub3d *game, char **temp, char *color, int fd);
@@ -232,5 +236,16 @@ float			trace_ray_dda(t_cub3d *game, float angle);
 int				perform_dda(t_dda *dda, t_cub3d *game);
 void			init_dda(t_dda *dda, t_player *player, float ray_angle);
 void			calculate_map_dimensions(t_cub3d *game);
+int				is_map_start(char *line);
+int				is_texture_or_color(char *line);
+int				is_empty_line(char *line);
+int				handle_color_line(char *line, int *f, int *c);
+int				validate_config_line(char *line, int *f, int *c);
+int				precheck_colors(char *path);
+int				is_texture_identifier(char *line);
+int				is_texture_line(char *line);
+int				extract_helper(t_cub3d *game, char *line);
+char			*extract_path(char *line);
+int				count_lines(char *path);
 
 #endif

@@ -6,11 +6,28 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:28:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/08 17:18:10 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/17 23:08:16 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+void	cast_rays(t_cub3d *game)
+{
+	int		i;
+	float	ray_angle;
+	float	step;
+
+	step = game->fov / WIDTH;
+	ray_angle = game->player.angle - (game->fov / 2);
+	i = 0;
+	while (i < WIDTH)
+	{
+		draw_line(game, ray_angle, i);
+		ray_angle += step;
+		i++;
+	}
+}
 
 void	cast_rays_3d(t_cub3d *game)
 {

@@ -12,16 +12,23 @@
 
 #include "game.h"
 
-bool	touch(float px, float py, t_cub3d *game)
+int	count_lines(char *path)
 {
-	int	x;
-	int	y;
+	int		fd;
+	int		count;
+	char	*line;
 
-	x = px / BLOCK;
-	y = py / BLOCK;
-	if (game->map[y][x] == '1')
-		return (true);
-	return (false);
+	count = 0;
+	fd = open(path, O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		count++;
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (count);
 }
 
 float	distance(float x, float y)
@@ -51,4 +58,15 @@ int	check_map_name(char *av)
 	if (ft_strncmp(last_dot, ".cub", 4) != 0)
 		return (1);
 	return (0);
+}
+
+int	is_map_start(char *line)
+{
+	return (line[0] == '1' || line[0] == ' ');
+}
+
+int	is_texture_or_color(char *line)
+{
+	return (line[0] == 'N' || line[0] == 'S' || line[0] == 'W'
+		|| line[0] == 'E' || line[0] == 'F' || line[0] == 'C');
 }

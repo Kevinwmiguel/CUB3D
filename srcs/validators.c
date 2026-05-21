@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 23:37:12 by kwillian          #+#    #+#             */
-/*   Updated: 2026/02/14 14:33:30 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:12:58 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,26 @@ size_t	calc_line(char *s)
 	return (i);
 }
 
-int	valid_elements(char c)
-{
-	if (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
-		return (1);
-	return (0);
-}
-
-int	check_englobe(char *current, char *prev, char *next)
+int	check_englobe(char *cur, char *prev, char *next)
 {
 	int	i;
 	int	len;
 
 	i = 0;
-	len = ft_strlen(current);
+	len = ft_strlen(cur);
 	while (i < len)
 	{
-		if (current[i] == '0')
+		if (is_walkable(cur[i]))
 		{
 			if (i == 0 || i == len - 1)
 				return (0);
-			if (!valid_elements(current[i - 1])
-				|| !valid_elements(current[i + 1]))
+			if (cur[i - 1] == ' ' || cur[i + 1] == ' ')
 				return (0);
-			if (!prev || i >= (int)ft_strlen(prev) || !valid_elements(prev[i]))
+			if (!prev || i >= (int)ft_strlen(prev)
+				|| prev[i] == ' ')
 				return (0);
-			if (!next || i >= (int)ft_strlen(next) || !valid_elements(next[i]))
+			if (!next || i >= (int)ft_strlen(next)
+				|| next[i] == ' ')
 				return (0);
 		}
 		i++;

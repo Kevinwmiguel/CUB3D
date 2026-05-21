@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 12:28:30 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/14 17:40:29 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:10:11 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static void	init_values(t_cub3d *game)
 	game->tex[1].img_path = NULL;
 	game->tex[2].img_path = NULL;
 	game->tex[3].img_path = NULL;
+	game->floor = NULL;
+	game->ceiling = NULL;
 }
 
 static int	load_resources(t_cub3d *game, char *path)

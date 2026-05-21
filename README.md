@@ -138,4 +138,12 @@ Examples of errors:
 
 # Instructions
 
+- Compile using make
+- input should be "./cub3D assets/map_to_be_used
+- To check with valgrind please insert the suppression file compiling like "valgrind --suppressions=mlx.supp ./cub3D assets/map_to_be_used
+
 # Resources
+
+- https://www.youtube.com/watch?v=G9i78WoBBIU
+- https://harm-smits.github.io/42docs/projects/cub3d
+- CHATGPT was used to help to clean leaks
