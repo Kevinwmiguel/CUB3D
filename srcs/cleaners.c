@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaners.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 12:12:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/09 11:11:44 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/24 13:09:53 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,20 @@ void	free_textures_ceiling(t_cub3d *game)
 		free(game->ceiling);
 	while (i < 4)
 	{
+		if (game->mlx && game->tex[i].img)
+		{
+			mlx_destroy_image(game->mlx, game->tex[i].img);
+			game->tex[i].img = NULL;
+		}
 		if (game->tex[i].img_path)
+		{
 			free(game->tex[i].img_path);
+			game->tex[i].img_path = NULL;
+		}
 		i++;
 	}
 }
+
 
 void	exit_clean(t_cub3d *game)
 {
