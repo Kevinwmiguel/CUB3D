@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/18 16:23:36 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/24 13:21:47 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define MINIMAP_MARGIN 20
 # define DEBUG 0
 # define W 119
+# define M_PI 3.14159265358979323846
 # define A 97
 # define S 115
 # define D 100

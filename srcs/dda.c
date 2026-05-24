@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 21:26:33 by made-jes          #+#    #+#             */
-/*   Updated: 2026/05/05 21:05:17 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/24 13:24:28 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ float	trace_ray_dda(t_cub3d *game, float angle)
 {
 	t_dda	dda;
 	int		hit;
+	float	diff_angle;
+	float	corrected_dist;
 
 	init_dda(&dda, &game->player, angle);
 	hit = perform_dda(&dda, game);
@@ -67,5 +69,12 @@ float	trace_ray_dda(t_cub3d *game, float angle)
 		return (-1.0);
 	calculate_wall_dist(&dda, &game->player, angle);
 	get_tex_in(&dda, &game->player, game, angle);
-	return (dda.perp_wall_dist * BLOCK);
+	diff_angle = angle - game->player.angle;
+	if (diff_angle < -M_PI)
+		diff_angle += 2 * M_PI;
+	if (diff_angle > M_PI)
+		diff_angle -= 2 * M_PI;
+	corrected_dist = dda.perp_wall_dist * cos(diff_angle);
+	return (corrected_dist * BLOCK);
 }
+
