@@ -1,7 +1,7 @@
 F 220,0,30
 C      0,0,0,
 
-NO assets/north.xpm
+NO /assets/north.xpm
 WE assets/west.xpm
 EA assets/east.xpm
 SO assets/south.xpm
