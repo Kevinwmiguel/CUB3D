@@ -18,6 +18,7 @@ int	main(int argc, char **argv)
 
 	if (argc == 2)
 	{
+		ft_bzero(&game, sizeof(game));
 		if (check_map_name(argv[1]))
 			return (ft_putstr_fd("Invalid map name\n", 2), 1);
 		if (!precheck_colors(argv[1]))

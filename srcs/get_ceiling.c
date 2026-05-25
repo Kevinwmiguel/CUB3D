@@ -28,10 +28,7 @@ char	*build_color(char **temp2)
 		b = ft_int_to_hex(ft_atoi(temp2[2]));
 		tmp = ft_strjoin(r, g);
 		color = ft_strjoin(tmp, b);
-		free(tmp);
-		free(r);
-		free(g);
-		free(b);
+		return (free(tmp), free(r), free(g), free(b), color);
 	}
 	return (color);
 }
@@ -61,8 +58,7 @@ char	*fc_help(t_cub3d *game, char **temp, char *color, int fd)
 		free(game->line);
 		game->line = get_next_line(fd);
 	}
-	close(fd);
-	return (color);
+	return (close(fd), color);
 }
 
 char	*get_ceiling(t_cub3d *game, char *path)
