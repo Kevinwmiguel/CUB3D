@@ -12,8 +12,16 @@
 
 #include "game.h"
 
+char	*skip_spaces(char *str)
+{
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		str++;
+	return (str);
+}
+
 int	is_texture_identifier(char *line)
 {
+	line = skip_spaces(line);
 	return (!ft_strncmp(line, "NO", 2)
 		|| !ft_strncmp(line, "SO", 2)
 		|| !ft_strncmp(line, "WE", 2)
@@ -22,12 +30,14 @@ int	is_texture_identifier(char *line)
 
 int	is_texture_line(char *line)
 {
+	line = skip_spaces(line);
 	return (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
 		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3));
 }
 
 static int	get_texture_index(char *line)
 {
+	line = skip_spaces(line);
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		return (0);
 	if (ft_strncmp(line, "SO ", 3) == 0)

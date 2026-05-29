@@ -247,5 +247,6 @@ int				is_texture_line(char *line);
 int				extract_helper(t_cub3d *game, char *line);
 char			*extract_path(char *line);
 int				count_lines(char *path);
+char			*skip_spaces(char *str);
 
 #endif

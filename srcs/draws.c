@@ -42,6 +42,7 @@ void	clean_line(int count, char *line, int fd)
 
 static int	process_texture_line(t_cub3d *game, char *line, int fd)
 {
+	line = skip_spaces(line);
 	if (is_texture_identifier(line) && !is_texture_line(line))
 	{
 		printf("Error\nInvalid texture line\n");
