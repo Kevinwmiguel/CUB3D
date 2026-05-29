@@ -218,7 +218,6 @@ void			parse_colors(t_cub3d *game, char *path);
 void			put_pixel(int x, int y, int color, t_cub3d *game);
 void			paint_floor_and_ceiling(t_cub3d *game);
 int				hex_to_int(const char *hex);
-void			init_player(t_player *player);
 void			draw_square(int x, int y, int size, t_cub3d *game);
 int				key_press(int keycode, t_cub3d *game);
 int				key_release(int keycode, t_cub3d *game);

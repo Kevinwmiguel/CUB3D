@@ -51,25 +51,6 @@ void	set_player_from_map(t_cub3d *game)
 	}
 }
 
-void	init_player(t_player *player)
-{
-	player->x = 0;
-	player->y = 0;
-	player->angle = 0;
-	player->key_up = false;
-	player->key_down = false;
-	player->key_left = false;
-	player->key_right = false;
-	player->left_rotate = false;
-	player->right_rotate = false;
-	player->speed = 0;
-	player->angle_speed = 0;
-	player->cos_angle = 0;
-	player->sin_angle = 0;
-	player->next_x = 0;
-	player->next_y = 0;
-}
-
 int	key_press(int keycode, t_cub3d *game)
 {
 	if (keycode == W)

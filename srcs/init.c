@@ -12,32 +12,6 @@
 
 #include "game.h"
 
-static void	init_values(t_cub3d *game)
-{
-	game->line = NULL;
-	game->mlx = NULL;
-	game->win = NULL;
-	game->img = NULL;
-	game->map = NULL;
-	init_player(&game->player);
-	game->tab = NULL;
-	game->fov = (PI / 3);
-	game->colorhelp = 0;
-	game->rgb = NULL;
-	game->r_hex = NULL;
-	game->g_hex = NULL;
-	game->b_hex = NULL;
-	game->tmp = NULL;
-	game->draw_count = 0;
-	game->final_hex = NULL;
-	game->tex[0].img_path = NULL;
-	game->tex[1].img_path = NULL;
-	game->tex[2].img_path = NULL;
-	game->tex[3].img_path = NULL;
-	game->floor = NULL;
-	game->ceiling = NULL;
-}
-
 static int	load_resources(t_cub3d *game, char *path)
 {
 	get_textures(game, path);
@@ -65,7 +39,7 @@ static int	validate_and_start(t_cub3d *game)
 
 int	init_cub3d(t_cub3d *game, char *path)
 {
-	init_values(game);
+	game->fov = (PI / 3);
 	if (load_resources(game, path) == -1)
 		return (-1);
 	if (validate_and_start(game) == -1)
