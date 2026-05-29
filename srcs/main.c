@@ -22,7 +22,7 @@ int	main(int argc, char **argv)
 		if (check_map_name(argv[1]))
 			return (ft_putstr_fd("Error\nInvalid map name\n", 2), 1);
 		if (!precheck_colors(argv[1]))
-			return (ft_putstr_fd("Error\nInvalid RGB format\n", 2), 1);
+			return (ft_putstr_fd("Error\nInvalid RGB or texture format\n", 2), 1);
 		if (init_cub3d(&game, argv[1]) == -1)
 			return (destroy_game(&game, 1), 1);
 		mlx_hook(game.win, 2, 1L << 0, key_press, &game);
