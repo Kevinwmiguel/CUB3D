@@ -45,7 +45,7 @@ static int	load_resources(t_cub3d *game, char *path)
 	game->ceiling = get_ceiling(game, path);
 	parse_colors(game, path);
 	if (!game->floor || !game->ceiling)
-		return (printf("Error: Color not found or in the wrong format\n"), -1);
+		return (printf("Error\nColor not found or in the wrong format\n"), -1);
 	game->map = get_map(path);
 	return (0);
 }
@@ -54,7 +54,7 @@ static int	validate_and_start(t_cub3d *game)
 {
 	if (!validate_map(game, game->map))
 	{
-		printf("Invalid map!\n");
+		printf("Error\nInvalid map!\n");
 		destroy_game(game, 1);
 		return (-1);
 	}

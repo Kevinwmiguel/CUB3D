@@ -37,7 +37,6 @@ void	free_textures_ceiling(t_cub3d *game)
 	}
 }
 
-
 void	exit_clean(t_cub3d *game)
 {
 	fcleaner(game);

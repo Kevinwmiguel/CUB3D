@@ -77,4 +77,3 @@ float	trace_ray_dda(t_cub3d *game, float angle)
 	corrected_dist = dda.perp_wall_dist * cos(diff_angle);
 	return (corrected_dist * BLOCK);
 }
-

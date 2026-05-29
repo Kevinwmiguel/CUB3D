@@ -53,7 +53,7 @@ int	extract_helper(t_cub3d *game, char *line)
 	if (index == -1)
 		return (0);
 	if (game->tex[index].img_path)
-		return (printf("Duplicate %s texture\n", names[index]), 0);
+		return (printf("Error\nDuplicate %s texture\n", names[index]), 0);
 	game->tex[index].img_path = extract_path(line);
 	return (1);
 }

@@ -73,7 +73,7 @@ static int	check_middle_lines(t_cub3d *game, char **map)
 				if (!check_englobe(map[line],
 						map[line - 1], map[line + 1]))
 				{
-					printf("Map not closed!\n");
+					printf("Error\nMap not closed!\n");
 					destroy_game(game, 1);
 				}
 			}
