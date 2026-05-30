@@ -40,27 +40,35 @@ void	clean_line(int count, char *line, int fd)
 	}
 }
 
-static int	process_texture_line(t_cub3d *game, char *line, int fd)
+static int	process_texture_line(t_cub3d *game, char *line)
 {
 	line = skip_spaces(line);
 	if (is_texture_identifier(line) && !is_texture_line(line))
 	{
 		printf("Error\nInvalid texture line\n");
-		free(line);
-		close(fd);
-		destroy_game(game, 0);
 		return (0);
 	}
 	if (is_texture_line(line))
 	{
 		if (!extract_helper(game, line))
-		{
-			free(line);
-			close(fd);
-			destroy_game(game, 1);
-		}
+			return (0);
 	}
 	return (1);
+}
+
+static void	handle_text_error(t_cub3d *game, char *line, int fd)
+{
+	char	*tmp;
+
+	free(line);
+	tmp = get_next_line(fd);
+	while (tmp)
+	{
+		free(tmp);
+		tmp = get_next_line(fd);
+	}
+	close(fd);
+	destroy_game(game, 1);
 }
 
 void	get_textures(t_cub3d *game, char *path)
@@ -74,8 +82,8 @@ void	get_textures(t_cub3d *game, char *path)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!process_texture_line(game, line, fd))
-			return ;
+		if (!process_texture_line(game, line))
+			return (handle_text_error(game, line, fd));
 		free(line);
 		line = get_next_line(fd);
 	}

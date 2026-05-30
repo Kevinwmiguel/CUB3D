@@ -16,8 +16,7 @@ SRC =	srcs/main.c srcs/player.c srcs/map.c srcs/draws.c \
 		srcs/transform.c srcs/draws2.c \
 		srcs/draws3.c srcs/painting.c \
 		srcs/init.c srcs/validators2.c \
-		srcs/utils.c srcs/init2.c \
-		srcs/dda.c srcs/dda2.c \
+		srcs/utils.c srcs/dda.c srcs/dda2.c \
 		srcs/map_validation.c srcs/parser.c \
 		srcs/draws1.c srcs/validators3.c
 
