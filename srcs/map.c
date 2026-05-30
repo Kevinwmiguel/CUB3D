@@ -41,6 +41,11 @@ int	map_init(char **map, int fd)
 				continue ;
 			}
 		}
+		if (!is_map_line(line))
+		{
+			free(line);
+			break ;
+		}
 		map[i++] = ft_strtrim(line, "\n");
 		free(line);
 		line = get_next_line(fd);

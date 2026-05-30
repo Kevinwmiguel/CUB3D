@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 12:28:30 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/18 16:10:11 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/30 15:43:34 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	validate_and_start(t_cub3d *game)
 {
 	if (!validate_map(game, game->map))
 	{
-		printf("Error\nInvalid map!\n");
+		printf("Error\nInvalid map or more than one player found\n");
 		destroy_game(game, 1);
 		return (-1);
 	}

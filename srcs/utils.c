@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:34:41 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/05 21:11:46 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/30 15:10:59 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,15 @@ int	check_map_name(char *av)
 
 int	is_map_start(char *line)
 {
-	return (line[0] == '1' || line[0] == ' ');
+	while (*line == ' ' || *line == '\t')
+		line++;
+	return (*line == '1' || *line == '0');
 }
 
 int	is_texture_or_color(char *line)
 {
-	return (line[0] == 'N' || line[0] == 'S' || line[0] == 'W'
-		|| line[0] == 'E' || line[0] == 'F' || line[0] == 'C');
+	while (*line == ' ' || *line == '\t')
+		line++;
+	return (*line == 'N' || *line == 'S' || *line == 'W'
+		|| *line == 'E' || *line == 'F' || *line == 'C');
 }

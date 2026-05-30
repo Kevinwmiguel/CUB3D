@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 14:34:41 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/18 21:11:46 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/30 15:24:23 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	is_empty_line(char *line)
 
 int	handle_color_line(char *line, int *f, int *c)
 {
+	while (*line == ' ' || *line == '\t')
+		line++;
 	if (line[0] == 'F')
 	{
 		if (line[1] != ' ' || !check_rgb_format(line) || *f)
@@ -61,18 +63,45 @@ static int	process_file_lines(int fd, int *f, int *c)
 {
 	char	*line;
 	int		status;
+	int		map_started;
+	int		map_ended;
 
+	map_started = 0;
+	map_ended = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
+		if (map_started)
+		{
+			if (is_map_start(line) && !map_ended)
+			{
+				free(line);
+				line = get_next_line(fd);
+				continue ;
+			}
+			if (is_empty_line(line))
+			{
+				map_ended = 1;
+				free(line);
+				line = get_next_line(fd);
+				continue ;
+			}
+			if (is_texture_or_color(line))
+			{
+				if (!handle_color_line(line, f, c))
+					return (free(line), 0);
+				map_ended = 1;
+				free(line);
+				line = get_next_line(fd);
+				continue ;
+			}
+			return (free(line), 0);
+		}
 		status = validate_config_line(line, f, c);
 		if (status == 0)
 			return (free(line), 0);
 		if (status == 2)
-		{
-			free(line);
-			break ;
-		}
+			map_started = 1;
 		free(line);
 		line = get_next_line(fd);
 	}
