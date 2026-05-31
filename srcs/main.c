@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:43 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/17 23:07:01 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/31 21:43:27 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 int	main(int argc, char **argv)
 {
 	t_cub3d	game;
+	int		precheck;
 
+	precheck = 0;
 	if (argc == 2)
 	{
 		ft_bzero(&game, sizeof(game));
 		if (check_map_name(argv[1]))
 			return (ft_putstr_fd("Error\nInvalid map name\n", 2), 1);
-		if (!precheck_colors(argv[1]))
+		precheck = precheck_colors(argv[1]);
+		if (precheck == 0)
 			return (ft_putstr_fd("Error\nInvalid RGB/texture format\n", 2), 1);
+		if (precheck == -1)
+			return (1);
 		if (init_cub3d(&game, argv[1]) == -1)
 			return (destroy_game(&game, 1), 1);
 		mlx_hook(game.win, 2, 1L << 0, key_press, &game);

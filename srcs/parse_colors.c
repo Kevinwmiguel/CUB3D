@@ -6,80 +6,56 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 20:52:14 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/30 15:10:59 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/31 21:54:24 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static int	parse_rgb_component(char **s)
+static int	parse_rgb_values(char **s, int rgb[3])
 {
-	char	*start;
-	int		value;
+	int	i;
 
-	if (**s < '0' || **s > '9')
-		return (-1);
-	start = *s;
-	while (**s >= '0' && **s <= '9')
+	i = 0;
+	while (i < 3)
+	{
+		rgb[i] = parse_rgb_component(s);
+		if (rgb[i] < 0)
+			return (0);
+		i++;
+		while (**s == ' ' || **s == '\t')
+			(*s)++;
+		if (i == 3)
+			break ;
+		if (**s != ',')
+			return (0);
 		(*s)++;
-	if (*s - start > 3)
-		return (-1);
-	value = ft_atoi(start);
-	if (value < 0 || value > 255)
-		return (-1);
-	return (value);
+		while (**s == ' ' || **s == '\t')
+			(*s)++;
+	}
+	return (1);
 }
 
-static char	*build_rgb_hex(int r, int g, int b)
+static int	check_rgb_end(char *s)
 {
-	char	*red;
-	char	*green;
-	char	*blue;
-	char	*tmp;
-	char	*final;
-
-	red = ft_int_to_hex(r);
-	green = ft_int_to_hex(g);
-	blue = ft_int_to_hex(b);
-	tmp = ft_strjoin(red, green);
-	final = ft_strjoin(tmp, blue);
-	free(red);
-	free(green);
-	free(blue);
-	free(tmp);
-	return (final);
+	while (*s == ' ' || *s == '\t'
+		|| *s == '\n' || *s == '\r')
+		s++;
+	return (*s == '\0');
 }
 
 char	*process_rgb_line(char *line, t_cub3d *game)
 {
 	char	*s;
 	int		rgb[3];
-	int		i;
 
 	(void)game;
 	s = line + 1;
 	while (*s == ' ' || *s == '\t')
 		s++;
-	i = 0;
-	while (i < 3)
-	{
-		rgb[i] = parse_rgb_component(&s);
-		if (rgb[i] < 0)
-			return (NULL);
-		i++;
-		while (*s == ' ' || *s == '\t')
-			s++;
-		if (i == 3)
-			break ;
-		if (*s != ',')
-			return (NULL);
-		s++;
-		while (*s == ' ' || *s == '\t')
-			s++;
-	}
-	while (*s == ' ' || *s == '\t' || *s == '\n' || *s == '\r')
-		s++;
-	if (*s != '\0')
+	if (!parse_rgb_values(&s, rgb))
+		return (NULL);
+	if (!check_rgb_end(s))
 		return (NULL);
 	return (build_rgb_hex(rgb[0], rgb[1], rgb[2]));
 }

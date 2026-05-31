@@ -6,27 +6,11 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 22:33:10 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/30 15:10:59 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/31 21:52:39 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-void	clean_newline(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n' || str[i] == '\r')
-		{
-			str[i] = '\0';
-			return ;
-		}
-		i++;
-	}
-}
 
 int	ft_strlen3(char **s)
 {
@@ -46,22 +30,17 @@ static void	skip_space_chars(char **s)
 		(*s)++;
 }
 
-static int	parse_rgb_component(char **s)
+int	help_lines(char **s)
 {
-	char	*start;
-	int		value;
-
-	if (**s < '0' || **s > '9')
-		return (-1);
-	start = *s;
-	while (**s >= '0' && **s <= '9')
-		(*s)++;
-	if (*s - start > 3)
-		return (-1);
-	value = ft_atoi(start);
-	if (value < 0 || value > 255)
-		return (-1);
-	return (value);
+	skip_space_chars(s);
+	if (**s != 'F' && **s != 'C')
+		return (0);
+	(*s)++;
+	if (**s != ' ')
+		return (0);
+	(*s)++;
+	skip_space_chars(s);
+	return (1);
 }
 
 int	check_rgb_format(char *line)
@@ -72,14 +51,8 @@ int	check_rgb_format(char *line)
 	if (!line)
 		return (0);
 	s = line;
-	skip_space_chars(&s);
-	if (*s != 'F' && *s != 'C')
+	if (!help_lines(&s))
 		return (0);
-	s++;
-	if (*s != ' ')
-		return (0);
-	s++;
-	skip_space_chars(&s);
 	i = 0;
 	while (i < 3)
 	{

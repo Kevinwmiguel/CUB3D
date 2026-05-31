@@ -3,44 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: made-jes <made-jes@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 17:38:23 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/05 21:23:38 by made-jes         ###   ########.fr       */
+/*   Updated: 2026/05/31 21:55:05 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-int	is_map_line(char *line)
+static char	*find_map_start(char *line, int fd)
 {
-	while (*line == ' ')
-		line++;
-	return (*line == '1' || *line == '0');
+	while (line)
+	{
+		if (is_map_line(line))
+			return (line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (NULL);
 }
 
 int	map_init(char **map, int fd)
 {
 	char	*line;
 	int		i;
-	int		map_started;
 
 	i = 0;
-	map_started = 0;
-	line = get_next_line(fd);
+	line = find_map_start(get_next_line(fd), fd);
 	while (line)
 	{
-		if (!map_started)
-		{
-			if (is_map_line(line))
-				map_started = 1;
-			else
-			{
-				free(line);
-				line = get_next_line(fd);
-				continue ;
-			}
-		}
 		if (!is_map_line(line))
 		{
 			free(line);

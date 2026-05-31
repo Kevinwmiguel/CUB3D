@@ -6,7 +6,7 @@
 /*   By: kwillian <kwillian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 16:15:38 by kwillian          #+#    #+#             */
-/*   Updated: 2026/05/24 13:21:47 by kwillian         ###   ########.fr       */
+/*   Updated: 2026/05/31 21:55:23 by kwillian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,5 +248,10 @@ int				extract_helper(t_cub3d *game, char *line);
 char			*extract_path(char *line);
 int				count_lines(char *path);
 char			*skip_spaces(char *str);
+void			clean_newline(char *str);
+int				validate_config_line(char *line, int *f, int *c);
+char			*build_rgb_hex(int r, int g, int b);
+int				parse_rgb_component(char **s);
+int				is_map_line(char *line);
 
 #endif
