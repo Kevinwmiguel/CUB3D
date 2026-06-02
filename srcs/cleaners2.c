@@ -27,3 +27,13 @@ void	clean_newline(char *str)
 		i++;
 	}
 }
+
+void	ft_free_split(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		free(s[i++]);
+	free(s);
+}

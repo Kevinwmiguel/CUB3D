@@ -15,8 +15,6 @@
 static int	load_resources(t_cub3d *game, char *path)
 {
 	get_textures(game, path);
-	game->floor = get_floor(game, path);
-	game->ceiling = get_ceiling(game, path);
 	parse_colors(game, path);
 	if (!game->floor || !game->ceiling)
 		return (printf("Error\nColor not found or in the wrong format\n"), -1);

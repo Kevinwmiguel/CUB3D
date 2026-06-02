@@ -12,7 +12,6 @@ SRC =	srcs/main.c srcs/player.c srcs/map.c srcs/draws.c \
 		get_next_line/get_next_line_utils.c \
 		srcs/parse_colors.c srcs/validators.c \
 		srcs/player_val.c srcs/cleaners.c \
-		srcs/get_floor.c srcs/get_ceiling.c \
 		srcs/transform.c srcs/draws2.c \
 		srcs/draws3.c srcs/painting.c \
 		srcs/init.c srcs/validators2.c \
